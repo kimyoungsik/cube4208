@@ -13,17 +13,17 @@
 	  <tbody>
       <tr>
 				<td><%= @team.name %></td>
-				<% if current_user.mentor_approved? and current_user.organization_id == @team.organization_id %>
+				<% if @team.mentor?(current_user) %>
 						<td><%= best_in_place @team, :leader_user_id, type: :select, :nil => "대표자 선택", collection: @member %></td>
 				<% else %>					
 					<% if @team.leader_user_id != nil %>
-						<td><%= User.find(@team.leader_user_id).korean_full_name %></td>
+						<td><%= @team.leader_user.korean_full_name %></td>
 					<% else %>
 						<td>없음</td>
 	        <% end %>
 				<% end %>
 					<td><%= @team.organization.name %></td>
-				<% if @team.leader_user_id != current_user.id %>
+				<% if !@team.leader?(current_user) %>
 	        <td><%= @team.bank_branch %></td>
 	        <td><%= @team.account_number %></td>
 				<% else %>
@@ -50,12 +50,12 @@
 	      <tr>
 					<td><%= user.korean_full_name %></td>
 					<td><%= user.email %></td>
-					<% if @team.leader_user_id == current_user.id or (current_user.mentor_approved? and current_user.organization_id == @team.organization_id)%>
+					<% if @team.leader?(current_user) or @team.mentor?(current_user)%>
 	        	<td><%= best_in_place user, :status, type: :select, collection:[["pending","대기"],["user-approved","승인"]]%></td>
 					<% else %>
 						<td><%= status_user(user.status) %></td>
 					<% end %>
-					<% if @team.leader_user_id == user.id %>
+					<% if @team.leader?(user) %>
 	        	<td>대표</td>
 					<% else %>
 						<td></td>
@@ -65,10 +65,6 @@
 	  </tbody>
 	</table>
 </div >
-
-
-
-
 
 
 <%= render :partial => 'shared/facebook_like_box', :locals => { :facebook_page => @team.facebook_page } %>

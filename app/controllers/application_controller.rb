@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   
   def unapproved_user
-    if user_signed_in? and !(current_user.user_approved? or current_user.mentor_approved?)
+    if user_signed_in? and !(current_user.user_approved? or current_user.mentor_approved? or current_user.head_approved?)
       redirect_to gettingstarted_step2_path
     end
   end

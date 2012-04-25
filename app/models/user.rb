@@ -5,13 +5,15 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :birthday, :gender, :facebook_uid, :facebook_token, :team_id, :status, :organization_id
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :first_name, :last_name, :birthday, :gender, :facebook_uid, :facebook_token, :team_id, :status, :organization_id, :head_organization_id
   
   has_many :entries
   has_many :imports
   belongs_to :team # team users only
   belongs_to :organization # mentors only
+  belongs_to :head_organization # heads only
   
+  validates_inclusion_of :status, :in => ["pending", "user-approved","mentor-approved","head-approved"]
   def self.new_with_session(params, session)
     super.tap do |user|
       if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["user_hash"]
@@ -58,6 +60,14 @@ class User < ActiveRecord::Base
 
   def mentor_approved?
     if self.status == "mentor-approved"
+      true
+    else
+      false
+    end
+  end
+  
+  def head_approved?
+    if self.status == "head-approved"
       true
     else
       false

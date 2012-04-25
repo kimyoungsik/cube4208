@@ -3,10 +3,12 @@
 </div>
 
 <p>이름: <%= current_user.korean_full_name %></p>
-<% if current_user.team == nil%>
-	<p>기관명(멘토): <%= current_user.organization.name %></p>
-<% else%>
+<% if !current_user.team.nil?%>
 	<p>팀명(유저): <%= current_user.team.name %></p>
+<% elsif !current_user.organization.nil?  %>
+	<p>기관명(멘토): <%= current_user.organization.name %></p>
+<% else %>
+	<p>기관명(Head_Organization): <%= current_user.head_organization.name %></p>
 <% end %>	
 
 <%= link_to "수정하기", gettingstarted_step1_path %> 

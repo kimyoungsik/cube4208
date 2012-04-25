@@ -5,7 +5,7 @@ class GettingstartedController < ApplicationController
   end
   
   def step2
-    if current_user.team_id.nil? and current_user.organization_id.nil?
+    if current_user.team_id.nil? and current_user.organization_id.nil? and current_user.head_organization_id.nil?
       redirect_to gettingstarted_step1_path
     end
   end
@@ -22,7 +22,7 @@ class GettingstartedController < ApplicationController
   end
   
   def approved_user
-    if current_user.user_approved? or current_user.mentor_approved?
+    if current_user.user_approved? or current_user.mentor_approved? or current_user.head_approved?
       redirect_to root_path
     end
   end

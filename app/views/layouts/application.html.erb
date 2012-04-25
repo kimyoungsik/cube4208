@@ -74,7 +74,7 @@
 	  <div class="row">
 			<div class="span2">
 				
-				<% if user_signed_in? and (current_user.user_approved? or current_user.mentor_approved?) %>
+				<% if user_signed_in? and (current_user.user_approved? or current_user.mentor_approved? or current_user.head_approved?) %>
 					<h3>엑셀파일 불러오기</h3>
 					<%= simple_form_for Import.new, :html => { :multipart => true } do |f| %>
 					  <%= f.error_notification %>

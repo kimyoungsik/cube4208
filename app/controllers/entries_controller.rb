@@ -18,6 +18,16 @@ class EntriesController < ApplicationController
       @entries = current_user.team.entries
       @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
 
+    elsif current_user.head_approved?
+      @entries = []
+      @prev_month_entries = []
+      current_user.head_organization.organizations.each do |organization|
+        organization.teams.each do |team|
+          @entries += team.entries
+          @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+        end
+      end
+      
     end
     # @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
     # prev_month.beginning_of_month

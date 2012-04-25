@@ -3,9 +3,10 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#user" data-toggle="tab">일반유저</a></li>
   <li class><a href="#mentor" data-toggle="tab">멘토</a></li>
-	<li class><a href="#pending_mentor" data-toggle="tab">대기멘토</a></li>
+	<% if current_user.head_approved? %>
+		<li class><a href="#pending_mentor" data-toggle="tab">대기멘토</a></li>
+	<% end %>
 </ul>
-
 
 <div class="tab-content">
   <div class="tab-pane active" id="user">
@@ -14,9 +15,11 @@
   <div class="tab-pane" id="mentor">
   	<%= render "mentor_table"%>
   </div>
-  <div class="tab-pane" id="pending_mentor">
-  	<%= render "pending_mentor_table"%>
-  </div>
+	<% if current_user.head_approved? %>
+  	<div class="tab-pane" id="pending_mentor">
+	  	<%= render "pending_mentor_table"%>
+	  </div>
+	<% end %>
 </div>
 
 
