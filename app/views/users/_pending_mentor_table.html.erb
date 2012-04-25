@@ -1,0 +1,29 @@
+<table class="table">
+  <thead>
+    <tr>
+			<th>성명</th>
+      <th>email</th>
+			<th>담당기관</th>
+			<th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pending_mentors.each do |mentor| %>     
+			<tr>
+				<% if mentor.first_name.nil? or mentor.last_name.nil? %>
+					<td>없음</td>
+				<% else %>
+					<td><%= link_to mentor.korean_full_name, user_path(mentor) %></td>
+				<% end %>	
+        <td><%= mentor.email %></td>
+				<% if mentor.organization_id.nil? %>
+					<td>없음</td>
+				<% else %>
+					<td><%= mentor.organization.name %></td>
+				<% end %>	
+				<td><%= best_in_place mentor, :status, type: :select, collection:[["pending","대기"],["mentor-approved","멘토승인"]]%></td>
+      </tr>
+		<% end %>
+  </tbody>
+</table>
+

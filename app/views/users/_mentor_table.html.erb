@@ -1,0 +1,21 @@
+<table class="table">
+  <thead>
+    <tr>
+			<th>성명</th>
+      <th>email</th>
+			<th>담당기관</th>
+			<th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @mentors.each do |mentor| %>     
+			<tr>
+				<td><%= link_to mentor.korean_full_name, user_path(mentor) %></td>
+        <td><%= mentor.email %></td>
+				<td><%= mentor.organization.name %></td>
+				<td><%= mentor.status %></td>
+      </tr>
+		<% end %>
+  </tbody>
+</table>
+
