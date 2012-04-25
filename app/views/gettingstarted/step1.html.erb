@@ -1,14 +1,15 @@
-<h1>정보 확인</h1>
-<% if current_user.team_id.nil? %>
-	<div class="alert alert-error">
-		팀을 선택해주세요.
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#user" data-toggle="tab">일반유저</a></li>
+  <li class><a href="#mentor" data-toggle="tab">멘토</a></li>
+</ul>
+
+
+<div class="tab-content">
+  <div class="tab-pane active" id="user">
+		<%= render "user_table"%>
 	</div>
-<% end %>
-<div>
-	<%= simple_form_for(current_user, :as => :user, :url => gettingstarted_path(current_user)) do |f| %>
-		<%= f.input :last_name %>
-		<%= f.input :first_name %>
-		<%= f.input :team_id, :collection => Organization.all, :as => :grouped_select, :group_method => :teams %>
-		<%= f.submit %>
-	<% end %>
+  <div class="tab-pane" id="mentor">
+  	<%= render "mentor_table"%>
+  </div>
 </div>
+

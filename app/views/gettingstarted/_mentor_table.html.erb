@@ -1,0 +1,14 @@
+<h1>정보 확인</h1>
+<% if current_user.team_id.nil? %>
+	<div class="alert alert-error">
+		기관을 선택해주세요
+	</div>
+<% end %>
+<div>
+	<%= simple_form_for(current_user, :as => :user, :url => gettingstarted_path(current_user)) do |f| %>
+		<%= f.input :last_name %>
+		<%= f.input :first_name %>
+		<%= f.input :organization_id, :collection => Organization.all%>
+		<%= f.submit %>
+	<% end %>
+</div>

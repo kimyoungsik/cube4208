@@ -5,7 +5,7 @@ class GettingstartedController < ApplicationController
   end
   
   def step2
-    if current_user.team_id.nil?
+    if current_user.team_id.nil? and current_user.organization_id.nil?
       redirect_to gettingstarted_step1_path
     end
   end
