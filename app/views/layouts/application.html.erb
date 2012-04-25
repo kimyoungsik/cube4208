@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socialcube</title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode/svn/trunk/html5.js" type="text/javascript"></script>
+  <![endif]-->
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<!-- facebook like box -->
+	<div id="fb-root"></div>
+	<script>(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = "//connect.facebook.net/ko_KR/all.js#xfbml=1&appId=272766056132447";
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	
+	<div class="navbar navbar-fixed-top">
+	  <div class="navbar-inner">
+	    <div class="container">
+	      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </a>
+	      <a class="brand" href="/">SocialCube</a>
+				<% if user_signed_in? %>
+	      <div class="nav-collapse">
+					<ul class="nav">
+						
+								<li><%= link_to "활동비 지출내역", entries_path %></li>
+							<!-- <li><%= link_to "주 기관 목록", head_organizations_path %></li>
+							<li><%= link_to "위탁기관 목록", organizations_path %></li>
+							<li><%= link_to "창업팀 목록", teams_path %></li>
+							<li><%= link_to "목", categories_path %></li>
+							<li><%= link_to "세목", items_path %></li>
+							<li><%= link_to "한도", limits_path %></li> -->
+			
+					</ul>
+					<ul class="nav pull-right">
+						<li class="dropdown" id="menu1">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+								<i class="icon-user icon-white"></i> User
+								<b class="caret"></b>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<%= link_to('Logout', destroy_user_session_path, :method => :delete) %>        
+								</li>
+								<li>
+									<%= link_to('Edit registration', edit_user_registration_path) %>
+								</li>
+							</ul>
+						</li>
+	        </ul>
+	      </div>
+				<% end %>
+	    </div>
+	  </div>
+	</div>
+	<div class="container">
+		<% flash.each do |name, msg| %>
+	    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+	         <a class="close" data-dismiss="alert">x</a>
+	      <%= msg  %>
+	    </div>
+	  <% end %>
+	  <div class="row">
+			<div class="span2">
+				<% if user_signed_in? and (current_user.user_approved? or current_user.mentor_approved?) %>
+					<h3>엑셀파일 불러오기</h3>
+					<%= simple_form_for Import.new, :html => { :multipart => true } do |f| %>
+					  <%= f.error_notification %>
+
+					  <div class="form-inputs">
+							<%= f.hidden_field :user_id, :value => current_user.id %>
+							<%= f.hidden_field :team_id, :value => current_user.team_id %>
+					    <%= f.input :spreadsheet %>
+					  </div>
+
+				    <%= f.button :submit, :class => 'btn btn-primary' %>
+					<% end %>
+				<% end %>
+			</div>
+			<div class="span10">
+				<%= yield %>
+			</div>
+	  </div>
+	</div>
+</body>
+</html>

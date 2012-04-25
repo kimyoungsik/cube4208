@@ -1,0 +1,31 @@
+<%= form_for @limit, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Limit</legend>
+
+    <div class="control-group">
+      <%= f.label :team_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :team_id, :class => 'number_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :item_id, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :item_id, :class => 'number_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :amount, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.number_field :amount, :class => 'number_field' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', limits_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>

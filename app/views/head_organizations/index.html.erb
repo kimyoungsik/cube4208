@@ -1,0 +1,26 @@
+<h1>Head Organizations</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @head_organizations.each do |head_organization| %>
+      <tr>
+        <td><%= head_organization.id %></td>
+        <td><%= link_to head_organization.name, head_organization_path(head_organization) %></td>
+        <td><%= head_organization.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_head_organization_path(head_organization), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', head_organization_path(head_organization), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_head_organization_path, :class => 'btn btn-primary' %>

@@ -1,0 +1,7 @@
+<div class="alert alert-success">
+	승인 대기중입니다. 다음 정보가 정확할 경우 48시간 이내에 승인이 완료됩니다.
+</div>
+
+<p>이름: <%= current_user.korean_full_name %></p>
+<p>팀명: <%= current_user.team.name %></p>
+<%= link_to "수정하기", gettingstarted_step1_path %> 

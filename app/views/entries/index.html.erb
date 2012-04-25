@@ -1,0 +1,59 @@
+<h1>거래 내역</h1>
+<%= link_to '새 지출 입력', new_entry_path, :class => 'btn btn-primary' %> <%= link_to "#{Time.now.prev_month.month}월 활동비 보고서 PDF로 출력하기", entries_path( format: "pdf"), :class => 'btn btn-primary' %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>완성</th>
+      <th>팀명</th>
+      <th>거래일시</th>
+      <th>금액</th>
+      <th>목 - 세목</th>
+      <th><%= link_to "적요", "#", :rel => "popover", :title => "적요의 예시", "data-content" => "예: 일반 사무를 위한 노트 외 4종" %></th>
+      <th>지급처</th>
+      <th>지금방법</th>
+      <th>승인</th>
+			<% if current_user.mentor_approved? %>
+      	<th>코멘트</th>
+			<% end %>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @entries.each do |entry| %>
+      <tr>
+				<td>
+					<% if entry.item_id and !entry.summary.blank? %>
+						<%= link_to "완성", "#", :class => "btn btn-success" %>
+					<% else %>
+						<%= link_to "미완", "#", :rel => "popover", :class => "btn btn-danger", :title => "다음 정보를 입력해주세요.", "data-content" => "#{'목, 세목 선택.' unless entry.item_id} #{'적요 입력' if entry.summary.blank?}" %>
+					<% end %>
+				</td>
+        <td><%= link_to entry.team.name, team_path(entry.team) %></td>
+        <td><%= link_to entry.invoice_datetime, entry_path(entry) %></td>
+        <td><%= link_to number_with_delimiter(entry.amount), entry_path(entry) %></td>
+        <td><%= best_in_place entry, :item_id, type: :select, :nil => "== 세목을 선택하세요. =", collection: @items %></td>
+        <td><%= best_in_place entry, :summary, :nil => "== 적요를 입력해주세요. ==" %></td>
+        <td><%= link_to entry.vendor, entry_path(entry) %></td>
+        <td><%= link_to entry.payment_method, entry_path(entry) %></td>
+				<td>
+					<% if entry.team.mentor?(current_user) %>
+						<%= best_in_place entry, :status, type: :select, collection: [["pending", "대기"], ["approved", "승인"], ["rejected", "거절"]] %>
+					<% else %>
+						<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "대기중입니다", "data-content" => entry.comment %>
+					<% end %>
+				</td>
+				<% if entry.team.mentor?(current_user) %>
+					<td>
+							<%= best_in_place entry, :comment %>
+					</td>
+				<% end %>
+        <td>
+          <%= link_to I18n.t("edit"), edit_entry_path(entry), :class => 'btn btn-mini' %>
+          <%= link_to I18n.t("destroy"), entry_path(entry), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+
+
+    <% end %>
+  </tbody>
+</table>

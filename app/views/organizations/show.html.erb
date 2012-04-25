@@ -1,0 +1,19 @@
+<h1>Organization</h1>
+
+<p>
+  <b>Name</b><br>
+  <%= @organization.name %>
+</p>
+
+<p>
+  <b>Head organization</b><br>
+  <%= @organization.head_organization.name %>
+</p>
+
+<%= render :partial => 'shared/facebook_like_box', :locals => { :facebook_page => @organization.facebook_page } %>
+
+<div class="form-actions">
+  <%= link_to 'Back', organizations_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_organization_path(@organization), :class => 'btn' %>
+  <%= link_to 'Delete', organization_path(@organization), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

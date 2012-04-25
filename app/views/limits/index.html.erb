@@ -1,0 +1,26 @@
+<h1>Limits</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Team</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @limits.each do |limit| %>
+      <tr>
+        <td><%= limit.id %></td>
+        <td><%= link_to limit.team_id, limit_path(limit) %></td>
+        <td><%= limit.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_limit_path(limit), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', limit_path(limit), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_limit_path, :class => 'btn btn-primary' %>

@@ -1,0 +1,37 @@
+<h1>Import</h1>
+
+<p>
+  <b>User</b><br>
+  <%= @import.user_id %>
+</p>
+
+<p>
+  <b>Team</b><br>
+  <%= @import.team_id %>
+</p>
+
+<p>
+  <b>Spreadsheet file name</b><br>
+  <%= @import.spreadsheet_file_name %>
+</p>
+
+<p>
+  <b>Spreadsheet content type</b><br>
+  <%= @import.spreadsheet_content_type %>
+</p>
+
+<p>
+  <b>Spreadsheet file size</b><br>
+  <%= @import.spreadsheet_file_size %>
+</p>
+
+<p>
+  <b>Spreadsheet updated at</b><br>
+  <%= @import.spreadsheet_updated_at %>
+</p>
+
+<div class="form-actions">
+  <%= link_to 'Back', imports_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_import_path(@import), :class => 'btn' %>
+  <%= link_to 'Delete', import_path(@import), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

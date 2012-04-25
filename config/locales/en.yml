@@ -1,0 +1,19 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  sign_in: Sign in
+  
+  simple_form:
+    labels:
+      user:
+        username: 'User name'
+        password: 'Password'
+    hints:
+      user:
+        username: 'User name to sign in.'
+        password: 'No special characters, please.'
+    placeholders:
+      user:
+        username: 'Your username'
+        password: '****'

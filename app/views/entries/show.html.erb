@@ -1,0 +1,61 @@
+
+
+<h1>Entry</h1>
+
+<p>
+  <b>Team</b><br>
+  <%= @entry.team_id %>
+</p>
+
+<p>
+  <b>User</b><br>
+  <%= @entry.user_id %>
+</p>
+
+<p>
+  <b>Item</b><br>
+  <%= @entry.item_id %>
+</p>
+
+<p>
+  <b>Item detail</b><br>
+  <%= @entry.item_detail %>
+</p>
+
+<p>
+  <b>Invoice datetime</b><br>
+  <%= @entry.invoice_datetime %>
+</p>
+
+
+
+<p>
+  <b>Amount</b><br>
+  <%= @entry.amount %>
+</p>
+
+<p>
+  <b>Vendor</b><br>
+  <%= @entry.vendor %>
+</p>
+
+<p>
+  <b>Branch</b><br>
+  <%= @entry.branch %>
+</p>
+
+<p>
+  <b>Payment method</b><br>
+  <%= @entry.payment_method %>
+</p>
+
+<p>
+  <b>Summary</b><br>
+  <%= @entry.summary %>
+</p>
+
+<div class="form-actions">
+  <%= link_to 'Back', entries_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_entry_path(@entry), :class => 'btn' %>
+  <%= link_to 'Delete', entry_path(@entry), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

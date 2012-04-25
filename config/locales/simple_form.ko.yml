@@ -1,0 +1,14 @@
+ko:
+  simple_form:
+    labels:
+      user:
+        email: 이메일
+        password: 비밀번호
+        remember_me: 로그인 상태 유지
+        sign_in: 로그인
+    hints:
+      user:
+    placeholders:
+      user:
+        email: 이메일
+        password: 비밀번호

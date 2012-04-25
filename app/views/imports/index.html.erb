@@ -1,0 +1,26 @@
+<h1>Imports</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>팀</th>
+      <th>작성자</th>
+      <th>파일명</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @imports.each do |import| %>
+      <tr>
+        <td><%= link_to import.team.name, team_path(import.team) %></td>
+        <td><%= link_to import.user.korean_full_name, import_path(import) %></td>
+        <td><%= import.spreadsheet_file_name %></td>
+        <td>
+          <%= link_to 'Edit', edit_import_path(import), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', import_path(import), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_import_path, :class => 'btn btn-primary' %>

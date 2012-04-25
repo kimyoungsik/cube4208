@@ -1,0 +1,41 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+*/
+
+/* facebook button */
+div.facebook-button{
+	background: #29447E;
+	margin: 100px auto 0 auto;
+	width: 320px;
+	cursor: pointer;
+	
+	span.fb-button-text{
+		background: #5F78AB url("/assets/facebook_logo.png") 0px -62px no-repeat;
+		border-top: solid 1px #879AC0;
+		border-bottom: solid 1px #1A356E;
+		color: white;
+		display: block;
+		font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+		font-weight: bold;
+		padding: 2px 6px 3px 50px;
+		margin: 1px 1px 1px 0;
+		text-shadow: none;
+		font-size: 24px;
+		line-height: 32px;
+		height: 31px;
+		
+	}
+	span.fb-button-text:hover, span.fb-button-text:active, span.fb-button-text:focus{
+		background: #4f6aa3 url("/assets/facebook_logo.png") 0px -101px no-repeat;
+	}
+}
