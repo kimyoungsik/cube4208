@@ -15,15 +15,15 @@ FactoryGirl.define do
     "person-#{n}@example.com"
   end
   
-  factory :mentor do
-    first_name "kildong"
-    last_name "hong"
-    organization_id 1 
-    status "mentor-approved"
-    email    "dean1@headflow.net"
-    password "dudtlr"
-    password_confirmation "dudtlr"
-  end
+  # factory :mentor do
+  #   first_name "kildong"
+  #   last_name "hong"
+  #   organization_id 1 
+  #   status "mentor-approved"
+  #   email    "dean1@headflow.net"
+  #   password "dudtlr"
+  #   password_confirmation "dudtlr"
+  # end
   
   factory :admin do
     email    "admin@headflow.net"
@@ -43,6 +43,8 @@ FactoryGirl.define do
     name    "lifeseed"
     organization_id 1
   end
+  
+
   
   factory :entry do
     # team_id 1

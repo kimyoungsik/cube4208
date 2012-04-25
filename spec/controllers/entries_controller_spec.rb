@@ -14,7 +14,7 @@ describe EntriesController do
       it "should deny access to 'index'" do
           get :index
           response.should redirect_to(user_session_url)
-        end     
+      end     
     end
     
     describe "for signed_in users" do
@@ -47,9 +47,9 @@ describe EntriesController do
     
     describe "unsigned_in users" do   
       it "should deny access to 'create'" do
-          post :create
-          response.should redirect_to(user_session_url)
-        end     
+        post :create
+        response.should redirect_to(user_session_url)
+      end     
     end
     
     describe "for signed_in users" do
@@ -101,16 +101,16 @@ describe EntriesController do
     end
     
     describe "unsigned_in users" do   
-       before(:each) do
-         sign_out @user
-         @attr = { :user_id => @user, :team_id => @team, :amount => 10, :vendor => "change vendor", :summary => "right summary"}
-       end
+      before(:each) do
+        sign_out @user
+        @attr = { :user_id => @user, :team_id => @team, :amount => 10, :vendor => "change vendor", :summary => "right summary"}
+      end
 
-       it "should deny access to 'index'" do
-           put :update, :id => @entry, :entry => @attr
-           response.should redirect_to(user_session_url)
-         end     
-     end
+      it "should deny access to 'index'" do
+        put :update, :id => @entry, :entry => @attr
+        response.should redirect_to(user_session_url)
+      end     
+    end
     describe "signed_in users" do   
       describe "success" do
         before(:each) do
@@ -168,7 +168,6 @@ describe EntriesController do
   end
   
   describe "DELETE 'destroy'" do
-    
     describe "unsigned_in users" do   
       before(:each) do
         @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -178,47 +177,107 @@ describe EntriesController do
         @entry = Factory(:entry, :user => @user, :team =>@team)
         sign_out @user
       end
-      
       it "should deny access to 'index'" do
-          delete :destroy, :id => @entry
-          response.should redirect_to(user_session_url)
-        end     
+        delete :destroy, :id => @entry
+        response.should redirect_to(user_session_url)
+      end     
     end
     
     describe "for an unauthorized user" do 
-       before(:each) do
-         @request.env["devise.mapping"] = Devise.mappings[:user]
-         @user = Factory(:user, :team => @first_team)
-         @team = @user.team
-         wrong_user = Factory(:user, :email => Factory.next(:email), :team => @first_team)
-         sign_in wrong_user
-         @entry = Factory(:entry, :user => @user, :team =>@team)
-       end    
-       it "should deny access" #do
-         # delete :destroy, :id => @entry
-         #          response.should redirect_to(entries_path)
-         #        end
-       # it "should not destroy the seed" do
-       #     lambda do
-       #       delete :destroy, :id => @entry
-       #     end.should_not change(Entry, :count)        
-       #   end
-     end
-
-    describe "for an authorized user" do
-      before(:each) do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
-        @user = Factory(:user, :team => @first_team)
-        sign_in @user
-        @team = @user.team
-        @entry = Factory(:entry, :user => @user, :team =>@team)
-      end
-      it "should destroy the entry" do
-         lambda do
+      describe "another team user" do 
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          @user = Factory(:user, :team => @first_team)
+          @team = @user.team
+          @anoterteam = Team.create!(:name => "truebeans", :organization_id => 1)
+          wrong_user = Factory(:user, :email => Factory.next(:email), :team => @anoterteam)
+          sign_in wrong_user
+          @entry = Factory(:entry, :user => @user, :team =>@team)
+        end    
+        it "should deny access another team" do
+          delete :destroy, :id => @entry
+          response.should redirect_to(entries_path)
+        end
+        it "should not destroy the seed" do
+          lambda do
             delete :destroy, :id => @entry
-         end.should change(Entry, :count).by(-1)
+          end.should_not change(Entry, :count)        
+        end
+      end
+        
+      describe "another mentor" do
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          @user = Factory(:user, :team => @first_team)
+          sign_in @user
+          @team = @user.team
+          @entry = Factory(:entry, :user => @user, :team =>@team)
+          sign_out @user
+
+          @mentor = User.create!(
+             :first_name => "kildong",
+             :last_name => "hong",
+             :organization_id => 2, 
+             :status => "mentor-approved",
+             :email  =>  "mentor2@headflow.net",
+             :password => "dudtlr",
+             :password_confirmation => "dudtlr")
+          sign_in @mentor
+        end
+        it "should deny access another team" do
+          delete :destroy, :id => @entry
+          response.should redirect_to(entries_path)
+        end
+        it "should not destroy the seed" do
+          lambda do
+            delete :destroy, :id => @entry
+          end.should_not change(Entry, :count)        
+        end
       end
     end
+
+    describe "for an authorized user" do
+      describe "user" do
+        before(:each) do
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          @user = Factory(:user, :team => @first_team)
+          sign_in @user
+          @team = @user.team
+          @entry = Factory(:entry, :user => @user, :team =>@team)
+        end
+        it "should destroy the entry" do
+          lambda do
+            delete :destroy, :id => @entry
+          end.should change(Entry, :count).by(-1)
+        end
+      end
+      describe "mentor" do
+        before(:each) do
+          
+          @request.env["devise.mapping"] = Devise.mappings[:user]
+          @user = Factory(:user, :team => @first_team)
+          sign_in @user
+          @team = @user.team
+          @entry = Factory(:entry, :user => @user, :team =>@team)
+          sign_out @user
+          
+          @mentor = User.create!(
+            :first_name => "kildong",
+            :last_name => "hong",
+            :organization_id => 1, 
+            :status => "mentor-approved",
+            :email  =>  "mentor2@headflow.net",
+            :password => "dudtlr",
+            :password_confirmation => "dudtlr")
+          sign_in @mentor
+        
+        end
+        it "should destroy the entry" do
+          lambda do
+            delete :destroy, :id => @entry
+          end.should change(Entry, :count).by(-1)
+        end
+      end  
+    end
   end
-  
 end

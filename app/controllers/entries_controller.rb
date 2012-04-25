@@ -1,6 +1,6 @@
 class EntriesController < ApplicationController
   # skip_before_filter :user_access_denied
-  
+  before_filter :team_user, :only => [:destroy, :edit, :update]
   respond_to :html, :json
   # GET /entries
   # GET /entries.json
@@ -118,6 +118,20 @@ class EntriesController < ApplicationController
   
   
   private 
-  
+  #same team user or mentor
+  def team_user
+    @entry = Entry.find(params[:id])
+    ret = false
+    if current_user.mentor_approved?
+      if current_user.organization_id == @entry.team.organization_id
+        ret = true
+      end
+    else
+      if current_user.team_id == @entry.team_id
+        ret = true
+      end
+    end
+    redirect_to entries_path unless ret
+  end
 
 end
