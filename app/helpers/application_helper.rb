@@ -26,4 +26,17 @@ module ApplicationHelper
       "danger"
     end
   end
+  
+  def status_user(status)
+    case status
+    when "pending"
+      "대기"
+    when "user-approved"
+      "승인"
+    when "mentor-approved"
+      "맨토승인"
+    end
+  end
+  
+  
 end

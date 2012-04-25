@@ -1,5 +1,20 @@
 Socialcube::Application.routes.draw do
 
+  
+
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  devise_for :admins, :path_prefix => 'd'
+
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  
+  devise_scope :user do
+    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
+  end
+  
+  resources :lectures
+  
+  resources :users
+  
   resources :imports
 
   get "home/index"
@@ -22,17 +37,6 @@ Socialcube::Application.routes.draw do
   resources :organizations
 
   resources :head_organizations
-
-  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
-  devise_for :admins, :path_prefix => 'd'
-
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-  
-  devise_scope :user do
-    get '/users/auth/:provider' => 'users/omniauth_callbacks#passthru'
-  end
-  
-  resources :lectures
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

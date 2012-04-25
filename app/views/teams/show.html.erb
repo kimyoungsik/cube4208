@@ -1,16 +1,78 @@
-<h1>Team</h1>
 
-<p>
-  <b>Name</b><br>
-  <%= @team.name %>
-</p>
+<div class = "well">
+	<table class="table table-striped">
+	  <thead>
+	    <tr>
+				<th>팀명</th>
+				<th>대표</th>
+	      <th>기관</th>
+	      <th>은행명</th>
+	      <th>계좌번호</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+      <tr>
+				<td><%= @team.name %></td>
+				<% if current_user.mentor_approved? and current_user.organization_id == @team.organization_id %>
+						<td><%= best_in_place @team, :leader_user_id, type: :select, :nil => "대표자 선택", collection: @member %></td>
+				<% else %>					
+					<% if @team.leader_user_id != nil %>
+						<td><%= User.find(@team.leader_user_id).korean_full_name %></td>
+					<% else %>
+						<td>없음</td>
+	        <% end %>
+				<% end %>
+					<td><%= @team.organization.name %></td>
+				<% if @team.leader_user_id != current_user.id %>
+	        <td><%= @team.bank_branch %></td>
+	        <td><%= @team.account_number %></td>
+				<% else %>
+     		  <td><%= best_in_place @team, :bank_branch, type: :input, :nil => "=은행명=" %></td>
+	        <td><%= best_in_place @team, :account_number, type: :input, :nil => "=계좌번호=" %></td>
+				<% end %>
+     	</tr>
+	  </tbody>
+	</table>
+</div >
+
+<div class = "well">
+	<table class="table">
+	  <thead>
+	    <tr>
+				<th>성명</th>
+				<th>이메일</th>
+	      <th>상태</th>
+	      <th>비고</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+			<% @team.users.each do |user| %>
+	      <tr>
+					<td><%= user.korean_full_name %></td>
+					<td><%= user.email %></td>
+					<% if @team.leader_user_id == current_user.id or (current_user.mentor_approved? and current_user.organization_id == @team.organization_id)%>
+	        	<td><%= best_in_place user, :status, type: :select, collection:[["pending","대기"],["user-approved","승인"]]%></td>
+					<% else %>
+						<td><%= status_user(user.status) %></td>
+					<% end %>
+					<% if @team.leader_user_id == user.id %>
+	        	<td>대표</td>
+					<% else %>
+						<td></td>
+	        <% end %>
+	      </tr>
+			<% end %>
+	  </tbody>
+	</table>
+</div >
+
+
+
+
+
 
 <%= render :partial => 'shared/facebook_like_box', :locals => { :facebook_page => @team.facebook_page } %>
 
-<p>
-  <b>Organization</b><br>
-  <%= @team.organization_id %>
-</p>
 
 <div class="form-actions">
   <%= link_to 'Back', teams_path, :class => 'btn'  %>

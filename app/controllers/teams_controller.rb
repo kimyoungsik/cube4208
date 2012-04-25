@@ -1,3 +1,4 @@
+#encoding:utf-8
 class TeamsController < ApplicationController
   # skip_before_filter :user_access_denied
   # GET /teams
@@ -15,7 +16,13 @@ class TeamsController < ApplicationController
   # GET /teams/1.json
   def show
     @team = Team.find(params[:id])
-
+    @member = []
+    @team.users.each do |user|
+      @member << [user.id, "#{user.korean_full_name}"]
+    end
+    
+    
+      
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @team }
