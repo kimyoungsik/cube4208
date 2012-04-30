@@ -68,6 +68,9 @@
 
 
 <%= render :partial => 'shared/facebook_like_box', :locals => { :facebook_page => @team.facebook_page } %>
+<% if (@team.member?(current_user) or @team.mentor?(current_user) or current_user.head_approved?) and !@entries.empty? %>
+	<%= link_to "#{@team.name} #{Time.now.prev_month.month}월 활동비 보고서 PDF로 출력하기", team_path( format: "pdf"), :class => 'btn btn-primary' %>
+<% end %>
 
 
 <div class="form-actions">

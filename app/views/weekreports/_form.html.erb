@@ -1,0 +1,20 @@
+<%= simple_form_for @weekreport, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend>주간활동보고서</legend>
+
+		<%= f.hidden_field :user_id%>
+		<%= f.hidden_field :team_id %>
+		<%= f.input :start, :as => :date %>
+		<%= f.input :end, :as => :date %>
+		<%= f.input :participants %>
+		<%= f.input :location %>
+		<%= f.input :goal %>
+		<%= f.input :contents %>
+		<%= f.input :result %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', weekreports_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>

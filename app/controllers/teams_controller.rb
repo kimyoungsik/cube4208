@@ -20,12 +20,19 @@ class TeamsController < ApplicationController
     @team.users.each do |user|
       @member << [user.id, "#{user.korean_full_name}"]
     end
+    @entries = @team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
     
     
       
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @team }
+      format.pdf do 
+        pdf = EntriesPdf.new(@entries)
+        send_data pdf.render, filename: "order_.pdf",
+                              type: "application/pdf",
+                              disposition: "inline"
+      end
     end
   end
 

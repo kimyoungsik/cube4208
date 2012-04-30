@@ -34,7 +34,7 @@
         <td><%= best_in_place entry, :item_id, type: :select, :nil => "== 세목을 선택하세요. =", collection: @items %></td>
         <td><%= best_in_place entry, :summary, :nil => "== 적요를 입력해주세요. ==" %></td>
         <td><%= link_to entry.vendor, entry_path(entry) %></td>
-        <td><%= link_to entry.payment_method, entry_path(entry) %></td>
+        <td><%= entry.payment_method %></td>
 				<td>
 					<% if entry.team.mentor?(current_user) %>
 						<%= best_in_place entry, :status, type: :select, collection: [["pending", "대기"], ["approved", "승인"], ["rejected", "거절"]] %>

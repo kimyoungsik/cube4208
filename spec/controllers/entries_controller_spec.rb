@@ -34,12 +34,12 @@ describe EntriesController do
         response.should be_success
       end
       
-      it "should have an payment_method in each entry" #do
-      #   get :index
-      #   @entries[0..2].each do |entry|
-      #       page.has_content?('cashaaa')
-      #   end
-      # end
+      it "should have an payment_method in each entry" do
+         get :index
+         @entries[0..2].each do |entry|
+             page.should have_selector('td',:text => 'cash')
+         end
+       end
     end
   end
   

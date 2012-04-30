@@ -2,6 +2,8 @@ class Team < ActiveRecord::Base
   has_many :users
   has_many :entries
   has_many :imports
+  has_many :weekreports
+  
   belongs_to :organization
   belongs_to :leader_user, :class_name => "User"
   

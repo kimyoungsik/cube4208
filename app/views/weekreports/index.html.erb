@@ -1,0 +1,27 @@
+<h1>Weekreports</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      
+      <th>팀</th>
+      <th>일시</th>
+      <th>목적</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @weekreports.each do |weekreport| %>
+      <tr>
+        
+        <td><%= link_to weekreport.team.name, weekreport_path(weekreport) %></td>
+        <td><%= "#{weekreport.start.strftime("%Y년  %m월  %d일")} ~ #{weekreport.end.strftime("%Y년  %m월  %d일")}" %></td>
+				<td>"#{weekreport.perpose}"</td>
+        <td>
+          <%= link_to 'Edit', edit_weekreport_path(weekreport), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', weekreport_path(weekreport), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_weekreport_path, :class => 'btn btn-primary' %>
