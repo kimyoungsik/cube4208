@@ -1,0 +1,29 @@
+<%= simple_form_for @weekly_report, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend>주간활동보고서</legend>
+		<div>작성자: <%= current_user.korean_full_name %></div>
+		<% if current_user.mentor_approved? %>
+			<div>기관명: <%= current_user.organization.name %></div>
+			<%= f.input :team_id, :collection => Team.where(:organization_id => current_user.organization.id) %>
+		<% else %>
+			<div>팀명: <%= current_user.team.name %></div>
+			<%= f.hidden_field :team_id %>
+		<% end %>
+		
+		<%= f.hidden_field :user_id%>
+				
+		
+		<%= f.input :start_date, :as => :date %>
+		<%= f.input :end_date, :as => :date %>
+		<%= f.input :participants, :input_html => { :value => current_user.team.members_in_string } %>
+		<%= f.input :location %>
+		<%= f.input :purpose %>
+		<%= f.input :content %>
+		<%= f.input :result %>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', weekly_reports_path, :class => 'btn' %>
+    </div>
+  </fieldset>
+<% end %>

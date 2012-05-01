@@ -37,6 +37,7 @@ production:
   reconnect: false
   database: socialcube_production
   pool: 5
-  username: root
-  password:
-  socket: /tmp/mysql.sock
+  username: username
+  password: password
+  timeout: 5000
+  host: localhost

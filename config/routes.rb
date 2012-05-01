@@ -1,8 +1,6 @@
 Socialcube::Application.routes.draw do
 
-  
-
-  resources :weekreports
+  resources :weekly_reports
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   devise_for :admins, :path_prefix => 'd'

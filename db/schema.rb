@@ -54,8 +54,9 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
   create_table "head_organizations", :force => true do |t|
     t.string   "name"
     t.string   "facebook_page"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string   "mailing_address"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "imports", :force => true do |t|
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.integer  "head_organization_id"
+    t.string   "mailing_address"
     t.string   "facebook_page"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
@@ -135,6 +137,7 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.integer  "team_id"
     t.string   "status",                              :default => "pending"
     t.integer  "organization_id"
+    t.integer  "head_organization_id"
     t.string   "email",                               :default => "",        :null => false
     t.string   "encrypted_password",                  :default => "",        :null => false
     t.string   "reset_password_token"
@@ -147,21 +150,20 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                                 :null => false
     t.datetime "updated_at",                                                 :null => false
-    t.integer  "head_organization_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
-  create_table "weekreports", :force => true do |t|
+  create_table "weekly_reports", :force => true do |t|
     t.integer  "user_id"
     t.integer  "team_id"
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.string   "participants"
     t.string   "location"
-    t.string   "goal"
-    t.text     "contents"
+    t.string   "purpose"
+    t.text     "content"
     t.text     "result"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false

@@ -13,7 +13,7 @@
 				<td><%= link_to user.korean_full_name, user_path(user) %></td>
         <td><%= user.email %></td>
 				<td><%= user.team.name %></td>
-				<td><%= user.status %></td>
+				<td><%= show_status(user.status) %></td>
       </tr>
 		<% end %>
   </tbody>

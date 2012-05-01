@@ -13,7 +13,7 @@
 				<td><%= link_to mentor.korean_full_name, user_path(mentor) %></td>
         <td><%= mentor.email %></td>
 				<td><%= mentor.organization.name %></td>
-				<td><%= mentor.status %></td>
+				<td><%= show_status(mentor.status) %></td>
       </tr>
 		<% end %>
   </tbody>

@@ -1,0 +1,59 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>팀</th>
+      <th>일시</th>
+      <th>목적</th>
+			<th>작성자</th>
+			<th>참가자</th>
+			<th>장소</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><%= @weekly_report.team.name %></td>
+        <td><%= "#{@weekly_report.start_date.strftime("%Y년  %m월  %d일")} ~ #{@weekly_report.end_date.strftime("%Y년  %m월  %d일")}" %></td>
+				<td><%= @weekly_report.purpose %></td>
+				<td><%= @weekly_report.user.korean_full_name %></td>
+				<td><%= @weekly_report.participants %></td>
+				<td><%= @weekly_report.location %></td>
+        <td>
+          <%= link_to 'Edit', edit_weekly_report_path(@weekly_report), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', weekly_report_path(@weekly_report), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+  </tbody>
+</table>
+
+
+<div class = "well">
+	<p>
+	  <b>목적</b><br>
+	  <%= @weekly_report.purpose %>
+	</p>
+</div>
+
+<div class = "well">
+	<p>
+	  <b>내용</b><br>
+	  <%= @weekly_report.content %>
+	</p>
+</div>
+
+<div class = "well">
+	<p>
+	  <b>결과</b><br>
+	  <%= @weekly_report.result %>
+	</p>
+</div>
+
+<% @team = @weekly_report.team %>
+<% if (@team.member?(current_user) or @team.mentor?(current_user) or current_user.head_approved?)%>
+	<%= link_to "PDF로 출력하기", weekly_report_path( format: "pdf"), :class => 'btn btn-primary' %>
+<% end %>
+
+<!-- <div class="form-actions">
+  <%= link_to 'Back', weekly_reports_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_weekly_report_path(@weekly_report), :class => 'btn' %>
+  <%= link_to 'Delete', weekly_report_path(@weekly_report), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div> -->

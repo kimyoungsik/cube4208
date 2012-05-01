@@ -1,0 +1,36 @@
+<h1>주간활동보고서</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+			<% if	current_user.head_approved? %>
+       <th>기관</th>
+			<% end %>
+      <th>팀</th>
+      <th>일시</th>
+      <th>목적</th>
+			<th>작성자</th>
+			
+    </tr>
+  </thead>
+  <tbody>
+    <% @weekly_reports.each do |weekly_report| %>
+			<% if (weekly_report.team.member?(current_user) or weekly_report.team.mentor?(current_user) or current_user.head_approved?)%>
+	      <tr>
+        	<% if	current_user.head_approved? %>
+		       <td><%= weekly_report.team.organization.name %></td>
+					<% end %>
+	        <td><%= link_to weekly_report.team.name, weekly_report_path(weekly_report) %></td>
+	        <td><%= "#{weekly_report.start_date.strftime("%Y년  %m월  %d일")} ~ #{weekly_report.end_date.strftime("%Y년  %m월  %d일")}" %></td>
+					<td><%= weekly_report.purpose %></td>
+					<td><%= weekly_report.user.korean_full_name %></td>
+	        <td>
+	          <%= link_to 'Edit', edit_weekly_report_path(weekly_report), :class => 'btn btn-mini' %>
+	          <%= link_to 'Destroy', weekly_report_path(weekly_report), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+	        </td>
+	      </tr>
+			<% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_weekly_report_path, :class => 'btn btn-primary' %>

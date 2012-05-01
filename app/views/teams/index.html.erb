@@ -1,29 +1,42 @@
-<h1>Teams</h1>
+<h1>창업팀</h1>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Created at</th>
-      <th>Actions</th>
+			<th></th>
+      <th>팀명</th>
+			<th>담당기관</th>
     </tr>
   </thead>
   <tbody>
     <% @teams.each do |team| %>
+			<% if current_user.mentor_approved? %>
+				<% @organization = current_user.organization %>
+			<% elsif current_user.user_approved? %>
+				<% @organization = current_user.team.organization %>
+			<% else %>
+				<% @organization = nil %>
+			<% end %>
+			
+			<% if @organization == nil or @organization == team.organization %>
       <tr>
-        <td><% if !team.facebook_page? %>
+        <td><% if team.facebook_page? %>
 					<%= link_to image_tag("https://graph.facebook.com/#{team.facebook_page}/picture?type=large"), team %>
 				<% end %>
 				</td>
         <td><%= link_to team.name, team_path(team) %></td>
-        <td><%= team.created_at %></td>
-        <td>
-          <%= link_to 'Edit', edit_team_path(team), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', team_path(team), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
-        </td>
+				<td><%= team.organization.name %></td>
+        <% if current_user.head_approved? %>
+					<td>
+	          <%= link_to 'Edit', edit_team_path(team), :class => 'btn btn-mini' %>
+	          <%= link_to 'Destroy', team_path(team), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+	        </td>
+				<% end %>
       </tr>
+			<% end %>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New', new_team_path, :class => 'btn btn-primary' %>
+<% if current_user.head_approved? %>
+	<%= link_to 'New', new_team_path, :class => 'btn btn-primary' %>
+<% end %>

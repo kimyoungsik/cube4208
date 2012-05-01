@@ -38,5 +38,15 @@ module ApplicationHelper
     end
   end
   
+  def show_status(status)
+    case status
+    when "pending"
+      "대기"
+    when "user-approved"
+      "일반유저"
+    when "mentor-approved"
+      "맨토"
+    end
+  end
   
 end

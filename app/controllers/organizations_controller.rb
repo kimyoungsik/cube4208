@@ -1,4 +1,6 @@
 class OrganizationsController < ApplicationController
+  before_filter :head_approved
+  
   # GET /organizations
   # GET /organizations.json
   def index
@@ -57,7 +59,6 @@ class OrganizationsController < ApplicationController
   # PUT /organizations/1.json
   def update
     @organization = Organization.find(params[:id])
-
     respond_to do |format|
       if @organization.update_attributes(params[:organization])
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
@@ -78,6 +79,14 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to organizations_url }
       format.json { head :no_content }
+    end
+  end
+  
+  private 
+  
+  def head_approved
+    if !current_user.head_approved?
+      redirect_to root_path
     end
   end
 end

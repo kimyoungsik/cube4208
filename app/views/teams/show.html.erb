@@ -13,9 +13,9 @@
 	  <tbody>
       <tr>
 				<td><%= @team.name %></td>
-				<% if @team.mentor?(current_user) %>
+				<% if @team.mentor?(current_user) or current_user.head_approved? %>
 						<td><%= best_in_place @team, :leader_user_id, type: :select, :nil => "대표자 선택", collection: @member %></td>
-				<% else %>					
+				<% else %>
 					<% if @team.leader_user_id != nil %>
 						<td><%= @team.leader_user.korean_full_name %></td>
 					<% else %>
@@ -23,7 +23,7 @@
 	        <% end %>
 				<% end %>
 					<td><%= @team.organization.name %></td>
-				<% if !@team.leader?(current_user) %>
+				<% if !@team.leader?(current_user) and !@team.mentor?(current_user) and !current_user.head_approved? %>
 	        <td><%= @team.bank_branch %></td>
 	        <td><%= @team.account_number %></td>
 				<% else %>
@@ -50,7 +50,7 @@
 	      <tr>
 					<td><%= user.korean_full_name %></td>
 					<td><%= user.email %></td>
-					<% if @team.leader?(current_user) or @team.mentor?(current_user)%>
+					<% if  @team.mentor?(current_user) or current_user.head_approved? %>
 	        	<td><%= best_in_place user, :status, type: :select, collection:[["pending","대기"],["user-approved","승인"]]%></td>
 					<% else %>
 						<td><%= status_user(user.status) %></td>

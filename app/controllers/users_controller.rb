@@ -4,6 +4,7 @@ class UsersController < ApplicationController
     @users = User.find_all_by_status("user-approved")
     @mentors = User.find_all_by_status("mentor-approved")
     @pending_mentors = User.find_all_by_status_and_team_id("pending",nil)
+    @pending_users = User.find_all_by_status_and_organization_id("pending",nil)
   end
   
   def update

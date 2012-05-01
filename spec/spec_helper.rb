@@ -48,7 +48,7 @@ Spork.each_run do
 end
 
 # --- Instructions ---
-# Sort the contents of this file into a Spork.prefork and a Spork.each_run
+# Sort the content of this file into a Spork.prefork and a Spork.each_run
 # block.
 #
 # The Spork.prefork block is run only once when the spork server is started.

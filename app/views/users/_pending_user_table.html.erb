@@ -1,0 +1,22 @@
+<table class="table">
+  <thead>
+    <tr>
+			<th>성명</th>
+      <th>email</th>
+			<th>소속팀</th>
+			<th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pending_users.each do |user| %>   
+  		<% if current_user.head_approved? or user.team.organization == current_user.organization %>
+				<tr>
+					<td><%= link_to user.korean_full_name, user_path(user) %></td>
+	        <td><%= user.email %></td>
+					<td><%= user.team.name%></td>
+					<td><%= best_in_place user, :status, type: :select, collection:[["pending","대기"],["user-approved","승인"]]%></td>
+	      </tr>
+			<% end %>
+		<% end %>
+  </tbody>
+</table>

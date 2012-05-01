@@ -10,6 +10,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.integer :team_id
       t.string :status, :default => "pending"
       t.integer :organization_id
+      t.integer :head_organization_id
       ## Database authenticatable
       t.string :email,              :null => false, :default => ""
       t.string :encrypted_password, :null => false, :default => ""

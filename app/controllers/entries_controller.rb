@@ -1,3 +1,4 @@
+#encoding:utf-8
 class EntriesController < ApplicationController
   # skip_before_filter :user_access_denied
   before_filter :team_user, :only => [:destroy, :edit, :update]
@@ -5,28 +6,28 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    if current_user.mentor_approved?
+    if current_user.mentor_approved? or current_user.head_approved?
       @entries = []
-      @prev_month_entries = []
-      current_user.organization.teams.each do |team|
-        @entries += team.entries
-        @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
-        
-      end
+      # @prev_month_entries = []
+      # current_user.organization.teams.each do |team|
+      #   @entries += team.entries
+      #   @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+      #   
+      # end
       
-    elsif current_user.user_approved?
+    else current_user.user_approved?
       @entries = current_user.team.entries
       @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
 
-    elsif current_user.head_approved?
-      @entries = []
-      @prev_month_entries = []
-      current_user.head_organization.organizations.each do |organization|
-        organization.teams.each do |team|
-          @entries += team.entries
-          @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
-        end
-      end
+    # elsif 
+      # @entries = []
+      # @prev_month_entries = []
+      # current_user.head_organization.organizations.each do |organization|
+      #   organization.teams.each do |team|
+      #     @entries += team.entries
+      #     @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+      #   end
+      # end
       
     end
     # @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
@@ -40,10 +41,16 @@ class EntriesController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @entries }
       format.pdf do 
-        pdf = EntriesPdf.new(@prev_month_entries)
-        send_data pdf.render, filename: "order_.pdf",
-                              type: "application/pdf",
-                              disposition: "inline"
+        entry = validate_entries(@prev_month_entries)
+        if( entry == nil)
+          pdf = EntriesPdf.new(@prev_month_entries)
+          send_data pdf.render, filename: "order_.pdf",
+                                type: "application/pdf",
+                                disposition: "inline"
+        else
+          redirect_to entries_path
+          flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?}"
+        end
       end
     end
   end
@@ -144,4 +151,15 @@ class EntriesController < ApplicationController
     redirect_to entries_path unless ret
   end
 
+
+  def validate_entries(entries)
+    # debugger
+    ret = nil
+    entries.each do |entry|
+      if entry.status == "pending"
+        return ret = entry
+      end
+    end
+    ret
+  end
 end

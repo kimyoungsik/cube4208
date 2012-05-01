@@ -2,8 +2,7 @@
   <fieldset>
     <legend>새로운 지출 내역</legend>
 		<% if current_user.mentor_approved? %>
-			
-			<div>팀명: <%= current_user.organization.name %></div>
+			<div>기관명: <%= current_user.organization.name %></div>
 		<% else %>
 			<div>팀명: <%= current_user.team.name %></div>
 		<% end %>

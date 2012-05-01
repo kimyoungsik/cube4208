@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   
   has_many :entries
   has_many :imports
-  has_many :weekreports
+  has_many :weekly_reports
   belongs_to :team # team users only
   belongs_to :organization # mentors only
   belongs_to :head_organization # heads only

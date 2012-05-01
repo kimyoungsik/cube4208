@@ -1,19 +1,15 @@
-<h1>Organizations</h1>
+<h1>기관</h1>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Created at</th>
-      <th>Actions</th>
+      <th>기관명</th>
+      
     </tr>
   </thead>
   <tbody>
     <% @organizations.each do |organization| %>
       <tr>
-        <td><%= organization.id %></td>
-        <td><%= link_to organization.name, organization_path(organization) %></td>
-        <td><%= organization.created_at %></td>
+        <td><%= organization.name %></td>
         <td>
           <%= link_to 'Edit', edit_organization_path(organization), :class => 'btn btn-mini' %>
           <%= link_to 'Destroy', organization_path(organization), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>

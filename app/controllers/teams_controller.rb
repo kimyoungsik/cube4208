@@ -1,5 +1,8 @@
 #encoding:utf-8
 class TeamsController < ApplicationController
+  # before_filter :approved_user, :only => [:destroy, :edit, :update, :new]
+  # respond_to :html, :json
+  
   # skip_before_filter :user_access_denied
   # GET /teams
   # GET /teams.json
@@ -22,16 +25,20 @@ class TeamsController < ApplicationController
     end
     @entries = @team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
     
-    
-      
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @team }
       format.pdf do 
+        entry = validate_entries(@entries)
+        if( entry == nil)
         pdf = EntriesPdf.new(@entries)
         send_data pdf.render, filename: "order_.pdf",
                               type: "application/pdf",
                               disposition: "inline"
+        else
+          redirect_to team_path(@team)
+          flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?}"
+        end
       end
     end
   end
@@ -75,6 +82,7 @@ class TeamsController < ApplicationController
 
     respond_to do |format|
       if @team.update_attributes(params[:team])
+   
         format.html { redirect_to @team, notice: 'Team was successfully updated.' }
         format.json { head :no_content }
       else
@@ -95,4 +103,23 @@ class TeamsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  private 
+  
+  def approved_user
+    if !(current_user.head_approved? or current_user.montor_approved?)
+      redirect_to root_path
+    end
+  end
+  
+  def validate_entries(entries)
+    ret = nil
+    entries.each do |entry|
+      if entry.status == "pending"
+        return ret = entry
+      end
+    end
+    ret
+  end
+  
 end
