@@ -1,5 +1,9 @@
 Socialcube::Application.routes.draw do
 
+  resources :photos
+
+  resources :pay_methods
+
   resources :weekly_reports
 
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'

@@ -1,0 +1,123 @@
+ClassModeling
+이 콘텐츠 삭제
+
+
+
+
+클래스명
+구분
+기능
+
+VIEW
+
+MainView
+View
+화면에 보여지는 전체적인 View
+
+RepoView
+View
+축약라이브러리 탭에 나타나는 표를 나타내는  View
+
+RepoTableModel
+Control
+Word를 배열로 관리
+
+Word
+Entity
+축약 정보에 관한 구조체형 클래스
+
+AddAbbrShortcut
+DiaglogView
+빠른 축약기능을 위한 축약자 입력하는 다이얼로그
+
+FontTracker
+Entity
+글자체,색,배경색 구조체형클래스
+
+OpenRepoDialog
+Dialog View
+라이브러리 찾아서열수있는 다이얼로그
+
+FontChooserView
+Dialog View
+글자 변경 다이얼로그
+
+AddAbbrResister
+Dialog View
+기본 축약 설정을 위한 단어,축약자,변환자를 입력하는 다이얼로그 
+
+Network_Server
+Dialog View
+네트워크 서버 연결 다이얼로그
+
+IFileActionAdapter
+Adapter
+TESModel 에 있는 함수(파일 입출력관련)를 MainView에서 사용할 수 있게 연결하는 Adapter
+
+ITESModelAdapter
+Adapter
+TESModel 에 있는 함수(라이브러리생성)를 MainView에서 사용할 수 있게 연결하는 Adapter
+
+IServerAdapter
+Adapter
+Server에 있는 함수(서버 연결관련)를 MainView,Network_Server에서 사용할 수 있게 연결하는 Adapter
+
+ISenderAdapter
+Adapter
+Server에 있는 함수(네트워크 송신 관련)를 MainView에서 사용할 수 있게 연결하는 Adapter
+
+IRepoMngAdapter
+Adapter
+RepoCtrlManager에 있는 함수(축약 관련)를 RepoView에서 사용할 수 있게 연결하는 Adapter
+
+CONTROLLER
+
+MainController
+Controller
+VIEW 와 MODLE 패키지의 클래스들을 ADAPTER를 이용해서 연결시키는 클래스
+
+MODEL
+
+TESModel
+Model
+파일 입출력,라이브러리 생성해제 에 관한 모델 클래스
+
+Server
+Model
+서버 연결에 관한 모델 클래스, ServerThread를 생성및 해제 
+
+ServerThread
+Thread
+텍스트를 네트워크로 송신하는 Thread
+
+RepoCtrlManager
+Model
+라이브러리를 CSV파일로 저장 관리하는 클래스
+
+CsvParser
+Model
+CSV 파일을 파싱하는 클래스(CsvReader,CsvWriter이용)
+
+CsvReader
+Model
+CSV파일을 읽는 클래스
+
+CsvWriter
+Model
+CSV파일을 쓰는 클래스
+
+AbbRepository
+Contorol
+Word를 배열로 관리 하는 컨트롤 클래스
+
+IMainViewAdapter
+Adapter
+MainView에 있는 함수를 TESModel에서 사용할 수 있게 연결하는 Adapter
+
+IMainViewAdapterForNetwork
+Adapter
+MainView에 있는 함수를 Server에서 사용할 수 있게 연결하는 Adapter
+
+IRepoViewAdapter
+Adapter
+RepoView에 있는 함수를 RepoCtrlManager에서 사용할 수 있게 연결하는 Adapter

@@ -1,0 +1,16 @@
+<%= simple_form_for(@expense) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :business_trip_report_id %>
+    <%= f.input :classification %>
+    <%= f.input :date %>
+    <%= f.input :amount %>
+    <%= f.input :pay_method_id %>
+    <%= f.input :note %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

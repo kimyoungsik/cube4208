@@ -20,6 +20,26 @@ Socialcube::Application.configure do
   # Generate digests for assets URLs
   config.assets.digest = true
 
+
+  # Don't care if the mailer can't send
+  config.action_mailer.raise_delivery_errors = true
+  
+  # Change mail delvery to either :smtp, :sendmail, :file, :test
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.smtp_settings = {
+    address: "mail.dreamkit.net",
+    port: 587,
+    domain: "dreamkit.net",
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: ENV["dreamkit@dreamkit.net"],
+    password: ENV["godqhrgkstptkd21"]
+  }
+
+  # Specify what domain to use for mailer URLs
+  config.action_mailer.default_url_options = {host: "intra.socialcube.kr" }
+
+
   # Defaults to Rails.root.join("public/assets")
   # config.assets.manifest = YOUR_PATH
 
@@ -64,4 +84,7 @@ Socialcube::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+  
+  # i18n
+  config.i18n.locale = :ko
 end

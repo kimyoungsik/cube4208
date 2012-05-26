@@ -1,3 +1,4 @@
+#encoding:utf-8
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable
@@ -44,7 +45,11 @@ class User < ActiveRecord::Base
   end
   
   def korean_full_name
-    last_name + first_name
+    if last_name and first_name
+      last_name + first_name
+    else
+      "유저"
+    end
   end
 
   def facebook_profile_photo

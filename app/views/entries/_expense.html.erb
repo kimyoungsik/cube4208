@@ -1,0 +1,33 @@
+<div id="expenses" class= "well">
+	<h3>비용</h3>
+		<div class = "well">
+			<p>
+			  <b>일수/일자 : </b>
+			  <%= expense.date.strftime("%Y-%m-%d") %>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>사용금액 : </b>
+			  <%= expense.amount %>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>결제방법 : </b>
+			  <%= expense.pay_method.name %>
+			</p>
+		</div>
+		
+		<div class = "well">
+			<p>
+			  <b>비고 : </b>
+			  <%= expense.note %>
+			</p>
+		</div>
+	
+
+  <div class="clear"></div>
+</div>

@@ -9,7 +9,7 @@
       <th>일시</th>
       <th>목적</th>
 			<th>작성자</th>
-			
+			<th><i class = "icon-comment"></i> comment</th>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +23,16 @@
 	        <td><%= "#{weekly_report.start_date.strftime("%Y년  %m월  %d일")} ~ #{weekly_report.end_date.strftime("%Y년  %m월  %d일")}" %></td>
 					<td><%= weekly_report.purpose %></td>
 					<td><%= weekly_report.user.korean_full_name %></td>
-	        <td>
+	        <% if weekly_report.team.mentor?(current_user) %>
+						<td><%= best_in_place weekly_report, :comment, :type => :textarea %></td>
+					<% else %>
+						<td>
+							<% if !weekly_report.comment.blank? %>
+								<%= link_to "보기", "#", :rel => "popover", :class => "btn btn-danger", :title => "comment", "data-content" => "#{ weekly_report.comment.gsub(/\n/, "<br />").html_safe if weekly_report.comment != nil  }" %>
+							<% end %>	
+						</td>
+					<% end %>
+					<td>
 	          <%= link_to 'Edit', edit_weekly_report_path(weekly_report), :class => 'btn btn-mini' %>
 	          <%= link_to 'Destroy', weekly_report_path(weekly_report), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
 	        </td>
@@ -33,4 +42,4 @@
   </tbody>
 </table>
 
-<%= link_to 'New', new_weekly_report_path, :class => 'btn btn-primary' %>
+<%= link_to '새 활동 보고서', new_weekly_report_path, :class => 'btn btn-primary' %>

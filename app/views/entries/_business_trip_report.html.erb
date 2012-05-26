@@ -1,0 +1,56 @@
+<div id="business_trip_reports" class= "well">
+	<h3>출장보고서</h3>
+		<div class = "well">
+			<p>
+			  <b>출장자 : </b>
+			  <%= business_trip_report.participants %>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>출장일시 : </b>
+			  <%= business_trip_report.start.strftime("%Y-%m-%d %H:%M")+"~"+business_trip_report.end.strftime("%Y-%m-%d %H:%M")%>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>출장목적 : </b> 
+			  <%= business_trip_report.perpose %>
+			</p>
+		</div>
+		
+		<div class = "well">
+			<p>
+			  <b>출장지 : </b>
+			  <%= business_trip_report.location %>
+			</p>
+		</div>
+	
+		<div class = "well">
+			<p>
+			  <b>면담자 : </b>
+			  <%= business_trip_report.interviewee %>
+			</p>
+		</div>
+	
+		<div class = "well">
+			<p>
+			  <b>주요 내용</b><br>
+			  <%= business_trip_report.content.gsub(/\n/, "<br />").html_safe %>
+			</p>
+		</div>
+	
+		<div class = "well">
+			<p>
+			  <b>의견</b><br>
+			  <%= business_trip_report.result.gsub(/\n/, "<br />").html_safe %>
+			</p>
+		</div>
+		
+  <div class="clear"></div>
+	<% for expense in business_trip_report.expenses %>
+		<%= render 'expense', expense: expense %>
+	<% end %>
+</div>

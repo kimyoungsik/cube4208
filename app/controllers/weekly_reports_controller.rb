@@ -1,3 +1,4 @@
+#encoding:utf-8
 class WeeklyReportsController < ApplicationController
   # GET /weekly_reports
   # GET /weekly_reports.json
@@ -64,9 +65,24 @@ class WeeklyReportsController < ApplicationController
   # PUT /weekly_reports/1.json
   def update
     @weekly_report = WeeklyReport.find(params[:id])
-
+    if !@weekly_report.comment.blank?
+      @comment = @weekly_report.comment
+      duplicate_send_email = true
+    end
+    
     respond_to do |format|
       if @weekly_report.update_attributes(params[:weekly_report])
+        if !@weekly_report.comment.blank? and (duplicate_send_email == false or @comment != @weekly_report.comment)
+          UserMailer.send_email(
+          @weekly_report.team.leader_user,
+          "주간활동보고서 (#{@weekly_report.purpose}) Comment",
+          "Comment : #{@weekly_report.comment}",
+          "문의사항은 답장으로 부탁드립니다.",
+          "#{weekly_report_url(@weekly_report)}"
+          
+          
+        ).deliver
+        end
         format.html { redirect_to @weekly_report, notice: 'WeeklyReport was successfully updated.' }
         format.json { head :no_content }
       else

@@ -1,9 +1,7 @@
 #encoding:utf-8
 class TeamsController < ApplicationController
-  # before_filter :approved_user, :only => [:destroy, :edit, :update, :new]
-  # respond_to :html, :json
-  
-  # skip_before_filter :user_access_denied
+  before_filter :user_access_denied, :only => [:destroy, :new]
+
   # GET /teams
   # GET /teams.json
   def index
@@ -23,22 +21,27 @@ class TeamsController < ApplicationController
     @team.users.each do |user|
       @member << [user.id, "#{user.korean_full_name}"]
     end
-    @entries = @team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
-    
+    @prev_entries = @team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+    @entries = @team.entries
+    @pay_methods = []
+      PayMethod.all.each do |method|
+        @pay_methods << [method.id,"#{method.name}"]
+    end
+      
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @team }
       format.pdf do 
-        entry = validate_entries(@entries)
-        if( entry == nil)
-        pdf = EntriesPdf.new(@entries)
+        # entry = validate_entries(@entries)
+      
+        pdf = EntriesPdf.new(@prev_entries)
         send_data pdf.render, filename: "order_.pdf",
                               type: "application/pdf",
                               disposition: "inline"
-        else
-          redirect_to team_path(@team)
-          flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?}"
-        end
+        # unless( entry == nil)
+        #   
+        #   flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?}"
+        # end
       end
     end
   end
@@ -106,20 +109,22 @@ class TeamsController < ApplicationController
   
   private 
   
-  def approved_user
-    if !(current_user.head_approved? or current_user.montor_approved?)
-      redirect_to root_path
-    end
-  end
   
-  def validate_entries(entries)
-    ret = nil
-    entries.each do |entry|
-      if entry.status == "pending"
-        return ret = entry
-      end
-    end
-    ret
-  end
+  
+   def user_access_denied
+     if user_signed_in? and current_user.user_approved?
+       redirect_to root_path
+     end
+   end
+  
+  # def validate_entries(entries)
+  #   ret = nil
+  #   entries.each do |entry|
+  #     if entry.status == "pending"
+  #       return ret = entry
+  #     end
+  #   end
+  #   ret
+  # end
   
 end

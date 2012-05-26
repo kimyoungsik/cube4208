@@ -5,6 +5,10 @@
 		<% if current_user.mentor_approved? %>
 			<div>기관명: <%= current_user.organization.name %></div>
 			<%= f.input :team_id, :collection => Team.where(:organization_id => current_user.organization.id) %>
+		<% elsif current_user.head_approved? %>
+		<!-- temporary  Team.all -->
+			<div>기관명: <%= current_user.head_organization.name %></div>
+			<%= f.input :team_id, :collection => Team.all %>
 		<% else %>
 			<div>팀명: <%= current_user.team.name %></div>
 			<%= f.hidden_field :team_id %>
@@ -15,7 +19,12 @@
 		
 		<%= f.input :start_date, :as => :date %>
 		<%= f.input :end_date, :as => :date %>
-		<%= f.input :participants, :input_html => { :value => current_user.team.members_in_string } %>
+
+		<% if current_user.user_approved?%>
+			<%= f.input :participants, :input_html => { :value => current_user.team.members_in_string } %>
+		<% else %>
+			<%= f.input :participants %>
+		<% end %>
 		<%= f.input :location %>
 		<%= f.input :purpose %>
 		<%= f.input :content %>

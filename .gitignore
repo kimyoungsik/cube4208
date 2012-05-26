@@ -21,3 +21,5 @@ doc/
 .project
 .DS_Store
 bundler_stubs/
+/public/system/*
+/public/uploads/*

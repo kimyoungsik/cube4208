@@ -34,6 +34,9 @@ gem 'prawn', :git => 'git://github.com/prawnpdf/prawn.git'
 gem 'passenger'
 gem 'capistrano'
 gem 'git-deploy'
+gem 'rails_autolink'
+gem 'rmagick'
+gem 'carrierwave'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

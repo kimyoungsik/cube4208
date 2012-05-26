@@ -7,16 +7,43 @@ ko:
   
   simple_form:
     labels:
+      entry:
+          item_id: 목-세목
+          invoice_datetime: 지출일자
+          amount: 금액
+          vendor: 지급처
+          pay_method_id: 결제방법
+          summary: 적요
+          remote_image_url: 혹은 이미지 URL
+          image: 이미지 불러오기
+          name: 제목
+          purpose : 목적
+      weekly_report:
+          start_date: 시작일
+          end_date: 종료일
+          participants: 참여자
+          location: 장소
+          purpose: 목적
+          content: 내용
+          result: 결과
+          
       import:
         spreadsheet: xls 파일을 선택해주세요
       user:
         first_name: 이름
         last_name: 성
         team_id: 팀
+        organization_id: 위탁 기관
+        head_organization_id: 관리 기관
         email: 이메일
         password: 비밀번호
+        password_confirmation: 비밀번호 확인
+        current_password: 기존 비밀번호
         remember_me: 로그인 상태 유지
         sign_in: 로그인
+      photo:
+        image: 이미지 불러오기
+        name: 제목
     hints:
       user:
     placeholders:

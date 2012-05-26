@@ -49,4 +49,27 @@ module ApplicationHelper
     end
   end
   
+  def position(user)
+    if user.user_approved?
+      return "#{user.team.name} 멤버"
+    elsif user.mentor_approved?
+      return "#{user.organization.name} 멘토"
+    elsif user.head_approved?
+      return "#{user.head_organization.name} 관리자"
+    else
+      return ""
+    end
+  end
+  
+  
+  def link_to_add_fields(name, f, association)
+    new_object = f.object.send(association).klass.new
+    id = new_object.object_id
+    fields = f.fields_for(association, new_object, child_index: id) do |builder|
+      render(association.to_s.singularize + "_fields", f: builder)
+    end
+    link_to(name, '#', class: "btn btn-info", id: "add_fields", data: {id: id, fields: fields.gsub("\n", "")})
+  end
+    
+    
 end

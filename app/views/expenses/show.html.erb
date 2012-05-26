@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>business trip report:</b>
+  <%= @expense.business_trip_report_id %>
+</p>
+
+<p>
+  <b>Classification:</b>
+  <%= @expense.classification %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @expense.date %>
+</p>
+
+<p>
+  <b>Amount:</b>
+  <%= @expense.amount %>
+</p>
+
+<p>
+  <b>Pay method:</b>
+  <%= @expense.pay_method_id %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%= @expense.note %>
+</p>
+
+
+<%= link_to 'Edit', edit_expense_path(@expense) %> |
+<%= link_to 'Back', expenses_path %>

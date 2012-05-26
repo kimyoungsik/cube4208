@@ -83,6 +83,9 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
+    carrierwave (0.6.2)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
     childprocess (0.3.2)
       ffi (~> 1.0.6)
     cocaine (0.2.1)
@@ -221,6 +224,8 @@ GEM
       activesupport (= 3.2.2)
       bundler (~> 1.0)
       railties (= 3.2.2)
+    rails_autolink (1.0.5)
+      rails (~> 3.1)
     railties (3.2.2)
       actionpack (= 3.2.2)
       activesupport (= 3.2.2)
@@ -232,6 +237,7 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     remotipart (1.0.2)
+    rmagick (2.13.1)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -297,6 +303,7 @@ DEPENDENCIES
   best_in_place
   capistrano
   capybara (= 1.1.2)
+  carrierwave
   coffee-rails (~> 3.2.1)
   debugger
   devise
@@ -313,7 +320,9 @@ DEPENDENCIES
   prawn!
   rails (= 3.2.2)
   rails_admin!
+  rails_autolink
   rb-fsevent!
+  rmagick
   rspec-rails (= 2.9.0)
   sass-rails (~> 3.2.3)
   simple_form

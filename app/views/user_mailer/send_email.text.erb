@@ -1,0 +1,15 @@
+SocialCube
+
+<%= @m_subject.html_safe %>
+
+<% unless @m_body.nil? or @m_body.empty? %>
+<%= @m_body.html_safe %>
+<% end %>
+
+<% unless @footer.nil? or @footer.empty? %>
+<%= @footer.html_safe %>
+<% end %>
+
+<% unless @url.nil? or @url.empty? %>
+<%= " 바로가기 : #{@url}" %>
+<% end %>

@@ -1,0 +1,35 @@
+git remote add
+
+git remote add <repo 이름> <아이디>@<주소>:<path>
+
+git remote add socialcube headflow@intra.socialcube.kr:/var/www/socialcube
+
+ 
+
+프로덕션에 푸시
+
+git push <repo 이름> <브랜치 이름>
+
+git push socialcube master
+
+ 
+
+접속
+
+ssh <아이디>@<주소>
+
+ssh headflow@intra.socialcube.kr
+
+ 
+
+푸시 후 업데이트
+
+다시불러오기: sudo /etc/init.d/apache2 reload
+
+서버재시작: sudo /etc/init.d/apache2 restart
+
+ 
+
+production log 보는 방법 (var/www/socialcube 에서)
+
+tail -f log/production

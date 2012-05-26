@@ -10,15 +10,15 @@
   </thead>
   <tbody>
 			<tr>
-				<td>이름: <%= current_user.korean_full_name %></td>
+				<td>이름: <%= @user.korean_full_name %></td>
         <td><%= @user.email %></td>
 				<td><%= show_status(@user.status) %></td>
 				<% if !current_user.team.nil?%>
-					<td> <%= current_user.team.name %></td>
+					<td> <%= @user.team.name %></td>
 				<% elsif !current_user.organization.nil?  %>
-					<td> <%= current_user.organization.name %></td>
+					<td> <%= @user.organization.name %></td>
 				<% else %>
-					<td> <%= current_user.head_organization.name %></td>
+					<td> <%= @user.head_organization.name %></td>
 				<% end %>
       </tr>
   </tbody>

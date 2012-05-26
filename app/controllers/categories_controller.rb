@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  before_filter :user_access_denied
   # GET /categories
   # GET /categories.json
   def index
@@ -78,6 +79,13 @@ class CategoriesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to categories_url }
       format.json { head :no_content }
+    end
+  end
+  
+  
+  def user_access_denied
+    if user_signed_in? and current_user.user_approved?
+      redirect_to root_path
     end
   end
 end

@@ -1,58 +1,106 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>완성</th>
+      <th>팀명</th>
+      <th>거래일시</th>
+      <th>금액</th>
+      <th>목 - 세목</th>
+			<th>목적</th>
+      <th><%= link_to "적요", "#", :rel => "popover", :title => "적요의 예시", "data-content" => "예: 일반 사무를 위한 노트 외 4종" %></th>
+      <th>지급처</th>
+      <th>지급방법</th>
+			<th></th>
+			<th><a href="#" rel="tooltip" title="출장보고서 및 여비정산서"><i class = "icon-plane"></i></a></th>
+			<th><a href="#" rel="tooltip" title="회의록"><i class = "icon-pencil"></i></a></th>
+			<th><a href="#" rel="tooltip" title="사진"><i class = "icon-picture"></i></a></th>
+      <th>승인</th>
+			<% if current_user.mentor_approved? %>
+      	<th>코멘트</th>
+			<% end %>
+    </tr>
+  </thead>
+  <tbody>
+		<tr>
+			<td>
+				<% if @entry.item_id and !@entry.summary.blank? and @entry.pay_method_id and (@entry.item_id != 4 or  !@entry.business_trip_reports.empty? ) and (@entry.item_id != 2 or !@entry.meetings.empty?) %>
+					<%= link_to "완성", "#", :class => "btn btn-success" %>
+				<% else %>
+					<%= link_to "미완", "#", :rel => "popover", :class => "btn btn-danger", :title => "다음 정보를 입력해주세요.", "data-content" => "#{'목, 세목 선택.' unless @entry.item_id} #{'적요 입력' if @entry.summary.blank?} #{'지급방법 선택' unless @entry.pay_method_id} #{"출장보고서 첨부. " if @entry.item_id == 4 and @entry.business_trip_reports.empty?}  #{"회의록 첨부. " if @entry.item_id == 2 and @entry.meetings.empty?}" %>
+				<% end %>
+			</td>
+			<td><%= link_to @entry.team.name, team_path(@entry.team) %></td>
+			<td><%= link_to @entry.invoice_datetime.strftime("%Y년%m월%d일 %H:%M:%S"), entry_path(@entry) %></td>
+			<td><%= link_to number_with_delimiter(@entry.amount), entry_path(@entry) %></td>
+			<td><%= best_in_place @entry, :item_id, type: :select, :nil => "== 세목을 선택하세요. =", collection: @items %></td>
+			<td><%= best_in_place @entry, :purpose, :nil => "== 목적을 입력해주세요. ==" %></td>
+			<td><%= best_in_place @entry, :summary, :nil => "== 적요를 입력해주세요. ==", :type => :textarea %></td>
+			<td><%= link_to @entry.vendor, entry_path(@entry) %></td>
+			<td><%= best_in_place @entry, :pay_method_id, type: :select, :nil => "지급방법 선택", collection: @pay_methods %></td>
+			<td><%= @entry.payment_method %></td>
+			<td>
+				<% if !@entry.business_trip_reports.empty? %>
+					<%= @entry.business_trip_reports.length %>
+				<% else %>
+					<i class = "icon-remove"></i>
+				<% end %>
+			</td>
+			<td>
+				<% if !@entry.meetings.empty? %>
+					<%= @entry.meetings.length %>
+				<% else %>
+					<i class = "icon-remove"></i>
+				<% end %>
+			</td>
+			<td>
+				<% if !@entry.photos.empty? %>
+					<%= @entry.photos.length %>
+				<% else %>
+					<i class = "icon-remove"></i>
+				<% end %>
+			</td>
+			<td>
+				<% if @entry.team.mentor?(current_user) %>
+					<%= best_in_place @entry, :status, type: :select, collection: [["pending", "대기"], ["approved", "승인"], ["rejected", "거절"]] %>
+				<% else %>
+					<% if @entry.status == "pending" %>
+						<%= link_to status_in_korean(@entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(@entry.status)}", :title => "대기중입니다", "data-content" => "#{ @entry.comment.gsub(/\n/, "<br />").html_safe if @entry.comment != nil }"%>
+					<% elsif @entry.status == "approved" %>
+						<%= link_to status_in_korean(@entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(@entry.status)}", :title => "승인", "data-content" => "#{ @entry.comment.gsub(/\n/, "<br />").html_safe if @entry.comment != nil  }"%>
+					<% elsif @entry.status == "rejected" %>
+							<%= link_to status_in_korean(@entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(@entry.status)}", :title => "거절", "data-content" => "#{ @entry.comment.gsub(/\n/, "<br />").html_safe if @entry.comment != nil  }"%>
+					<% end %>
+				<% end %>
+			</td>
+			<% if @entry.team.mentor?(current_user) %>
+				<td>
+						<%= best_in_place @entry, :comment %>
+				</td>
+			<% end %>
+		</tr>
+  </tbody>
+</table>
 
 
-<h1>Entry</h1>
+<% for business_trip_report in @entry.business_trip_reports %>
+	<%= render 'business_trip_report', business_trip_report: business_trip_report %>
+<% end %>
 
-<p>
-  <b>Team</b><br>
-  <%= @entry.team_id %>
-</p>
+<% for meeting in @entry.meetings %>
+	<%= render 'meeting', meeting: meeting %>
+<% end %>
 
-<p>
-  <b>User</b><br>
-  <%= @entry.user_id %>
-</p>
+<div id="photos">
+  <% for photo in @entry.photos %>
+    <div class="well">
+       <%= image_tag photo.image_url(:thumb).to_s %>
+      <div class="name"><%= photo.note %></div>
+    </div>
+  <% end %>
+  <div class="clear"></div>
+</div>
 
-<p>
-  <b>Item</b><br>
-  <%= @entry.item_id %>
-</p>
-
-<p>
-  <b>Item detail</b><br>
-  <%= @entry.item_detail %>
-</p>
-
-<p>
-  <b>Invoice datetime</b><br>
-  <%= @entry.invoice_datetime %>
-</p>
-
-
-
-<p>
-  <b>Amount</b><br>
-  <%= @entry.amount %>
-</p>
-
-<p>
-  <b>Vendor</b><br>
-  <%= @entry.vendor %>
-</p>
-
-<p>
-  <b>Branch</b><br>
-  <%= @entry.branch %>
-</p>
-
-<p>
-  <b>Payment method</b><br>
-  <%= @entry.payment_method %>
-</p>
-
-<p>
-  <b>Summary</b><br>
-  <%= @entry.summary %>
-</p>
+<%= link_to "추가 서류/사진 첨부",  edit_entry_path(@entry), :class => 'btn btn-info' %> 
 
 <div class="form-actions">
   <%= link_to 'Back', entries_path, :class => 'btn'  %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120430051427) do
+ActiveRecord::Schema.define(:version => 20120509011208) do
 
   create_table "admins", :force => true do |t|
     t.string   "email",              :default => "", :null => false
@@ -26,6 +26,21 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
   end
 
   add_index "admins", ["email"], :name => "index_admins_on_email", :unique => true
+
+  create_table "business_trip_reports", :force => true do |t|
+    t.integer  "entry_id"
+    t.string   "participants"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "perpose"
+    t.string   "location"
+    t.string   "interviewee"
+    t.text     "content"
+    t.text     "result"
+    t.text     "note"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "categories", :force => true do |t|
     t.string   "name"
@@ -44,19 +59,31 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.string   "vendor"
     t.string   "branch"
     t.string   "payment_method"
-    t.string   "summary"
+    t.text     "summary"
     t.string   "status",           :default => "pending"
-    t.string   "comment"
+    t.text     "comment"
     t.datetime "created_at",                              :null => false
     t.datetime "updated_at",                              :null => false
+    t.integer  "pay_method_id"
+    t.string   "purpose"
+  end
+
+  create_table "expenses", :force => true do |t|
+    t.integer  "business_trip_report_id"
+    t.string   "classification"
+    t.datetime "date"
+    t.integer  "amount"
+    t.integer  "pay_method_id"
+    t.string   "note"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
   end
 
   create_table "head_organizations", :force => true do |t|
     t.string   "name"
     t.string   "facebook_page"
-    t.string   "mailing_address"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "imports", :force => true do |t|
@@ -94,13 +121,38 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "meetings", :force => true do |t|
+    t.integer  "entry_id"
+    t.string   "participants"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "perpose"
+    t.string   "location"
+    t.text     "content"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
   create_table "organizations", :force => true do |t|
     t.string   "name"
     t.integer  "head_organization_id"
-    t.string   "mailing_address"
     t.string   "facebook_page"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+  end
+
+  create_table "pay_methods", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "photos", :force => true do |t|
+    t.integer  "entry_id"
+    t.string   "image"
+    t.text     "note"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "rails_admin_histories", :force => true do |t|
@@ -137,7 +189,6 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.integer  "team_id"
     t.string   "status",                              :default => "pending"
     t.integer  "organization_id"
-    t.integer  "head_organization_id"
     t.string   "email",                               :default => "",        :null => false
     t.string   "encrypted_password",                  :default => "",        :null => false
     t.string   "reset_password_token"
@@ -150,6 +201,7 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                                                 :null => false
     t.datetime "updated_at",                                                 :null => false
+    t.integer  "head_organization_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
@@ -167,6 +219,7 @@ ActiveRecord::Schema.define(:version => 20120430051427) do
     t.text     "result"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.text     "comment"
   end
 
 end

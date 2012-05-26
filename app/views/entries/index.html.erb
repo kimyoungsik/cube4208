@@ -1,6 +1,9 @@
 <h1>거래 내역</h1>
 <% unless current_user.head_approved? or current_user.mentor_approved? %>
-	<%= link_to '새 지출 입력', new_entry_path, :class => 'btn btn-primary' %> <%= link_to "#{Time.now.prev_month.month}월 활동비 보고서 PDF로 출력하기", entries_path( format: "pdf"), :class => 'btn btn-primary' %>
+	<%= link_to '새 지출 입력', new_entry_path, :class => 'btn btn-primary' %> 
+	<% if !@prev_month_entries.empty? %>
+		<%= link_to "#{Time.now.prev_month.month}월 활동비 보고서 PDF로 출력하기", entries_path( format: "pdf"), :class => 'btn btn-primary' %>
+	<% end %>
 <% end %>
 <table class="table table-striped">
   <thead>
@@ -10,9 +13,14 @@
       <th>거래일시</th>
       <th>금액</th>
       <th>목 - 세목</th>
+			<th>목적</th>
       <th><%= link_to "적요", "#", :rel => "popover", :title => "적요의 예시", "data-content" => "예: 일반 사무를 위한 노트 외 4종" %></th>
       <th>지급처</th>
-      <th>지금방법</th>
+      <th>지급방법</th>
+			<th></th>
+			<th><a href="#" rel="tooltip" title="출장보고서 및 여비정산서"><i class = "icon-plane"></i></a></th>
+			<th><a href="#" rel="tooltip" title="회의록"><i class = "icon-pencil"></i></a></th>
+			<th><a href="#" rel="tooltip" title="사진"><i class = "icon-picture"></i></a></th>
       <th>승인</th>
 			<% if current_user.mentor_approved? %>
       	<th>코멘트</th>
@@ -24,33 +32,59 @@
     <% @entries.each do |entry| %>
       <tr>
 				<td>
-					<% if entry.item_id and !entry.summary.blank? %>
+					<% if entry.item_id and !entry.summary.blank? and entry.pay_method_id and (entry.item_id != 4 or !entry.business_trip_reports.empty? ) and (entry.item_id != 2 or !entry.meetings.empty?) %>
 						<%= link_to "완성", "#", :class => "btn btn-success" %>
 					<% else %>
-						<%= link_to "미완", "#", :rel => "popover", :class => "btn btn-danger", :title => "다음 정보를 입력해주세요.", "data-content" => "#{'목, 세목 선택.' unless entry.item_id} #{'적요 입력' if entry.summary.blank?}" %>
+						<%= link_to "미완", "#", :rel => "popover", :class => "btn btn-danger", :title => "다음 정보를 입력해주세요.", "data-content" => "#{'목, 세목 선택.' unless entry.item_id} #{'적요 입력' if entry.summary.blank?} #{'지급방법 선택' unless entry.pay_method_id} #{"출장보고서 첨부. " if entry.item_id == 4 and entry.business_trip_reports.empty?}  #{"회의록 첨부. " if entry.item_id == 2 and entry.meetings.empty?}" %>
 					<% end %>
 				</td>
         <td><%= link_to entry.team.name, team_path(entry.team) %></td>
         <td><%= link_to entry.invoice_datetime.strftime("%Y년%m월%d일 %H:%M:%S"), entry_path(entry) %></td>
-        <td><%= link_to number_with_delimiter(entry.amount), entry_path(entry) %></td>
+        <td><%= best_in_place entry, (:amount)  %></td>
         <td><%= best_in_place entry, :item_id, type: :select, :nil => "== 세목을 선택하세요. =", collection: @items %></td>
-        <td><%= best_in_place entry, :summary, :nil => "== 적요를 입력해주세요. ==" %></td>
+				<td><%= best_in_place entry, :purpose, :nil => "== 목적을 입력해주세요. ==" %></td>
+				<td><%= best_in_place entry, :summary, :nil => "== 적요를 입력해주세요. ==", :type => :textarea %></td>
         <td><%= link_to entry.vendor, entry_path(entry) %></td>
-        <td><%= entry.payment_method %></td>
+        <td><%= best_in_place entry, :pay_method_id, type: :select, :nil => "==지급방법 선택", collection: @pay_methods %></td>
+			
+				<td><%= entry.payment_method %></td>
 				<td>
+					<% if !entry.business_trip_reports.empty? %>
+						<%= entry.business_trip_reports.length %>
+					<% else %>
+						<i class = "icon-remove"></i>
+					<% end %>
+				</td>
+				<td>
+					<% if !entry.meetings.empty? %>
+						<%= entry.meetings.length %>
+					<% else %>
+						<i class = "icon-remove"></i>
+					<% end %>
+				</td>
+				<td>
+					<% if !entry.photos.empty? %>
+						<%= entry.photos.length %>
+					<% else %>
+						<i class = "icon-remove"></i>
+					<% end %>
+				</td>
+				<td>	
 					<% if entry.team.mentor?(current_user) %>
 						<%= best_in_place entry, :status, type: :select, collection: [["pending", "대기"], ["approved", "승인"], ["rejected", "거절"]] %>
 					<% else %>
 						<% if entry.status == "pending" %>
-							<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "대기중입니다", "data-content" => entry.comment %>
-						<% else %>
-							<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "승인", "data-content" => entry.comment %>
+							<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "대기중입니다", "data-content" => "#{ entry.comment.gsub(/\n/, "<br />").html_safe if entry.comment != nil }"%>
+						<% elsif entry.status == "approved" %>
+							<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "승인", "data-content" => "#{ entry.comment.gsub(/\n/, "<br />").html_safe if entry.comment != nil  }"%>
+						<% elsif entry.status == "rejected" %>
+								<%= link_to status_in_korean(entry.status), "#", :rel => "popover", :class => "btn btn-#{status_label(entry.status)}", :title => "거절", "data-content" => "#{ entry.comment.gsub(/\n/, "<br />").html_safe if entry.comment != nil  }"%>
 						<% end %>
 					<% end %>
 				</td>
 				<% if entry.team.mentor?(current_user) %>
 					<td>
-							<%= best_in_place entry, :comment %>
+							<%= best_in_place entry, :comment, :type => :textarea %>
 					</td>
 				<% end %>
         <td>
@@ -58,8 +92,6 @@
           <%= link_to I18n.t("destroy"), entry_path(entry), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>
-
-
     <% end %>
   </tbody>
 </table>

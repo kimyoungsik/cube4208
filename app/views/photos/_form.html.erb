@@ -1,0 +1,14 @@
+<%= simple_form_for(@photo, :html => {:multipart => true})  do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+		<%= f.hidden_field :entry_id %>
+
+		<%= f.input :image %>
+		<%= f.input :note %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

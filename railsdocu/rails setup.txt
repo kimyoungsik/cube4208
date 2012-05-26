@@ -1,0 +1,86 @@
+20120307 YS Kim
+
+ruby 설치시 아래와 같은 메시지가 뜨면 gcc 설치 
+
+You requested building with '/usr/bin/gcc-4.2' but it is not in your path.
+
+gcc 설치 링크 https://github.com/kennethreitz/osx-gcc-installer
+20120306 YS Kim
+
+xcode 4.3 이상에서 rvm ruby 가 설치되지 않을 경우 command line tools for xcode 가 설치되지 않아서 그럴 수도 있습니다. 
+설치 방법:
+1. xcode preferences
+2. downloads tap
+3. command line tools 설치
+<출처 : 전하상*야머>
+
+20111221 YS Kim
+
+ruby update 
+1.9.2 => 1.9.3
+x-code(4.2)라서 문제 생길시에
+아래 방법으로 인스톨
+
+rvm install 1.9.3 --with-gcc=clang
+
+20111114 DY Lee
+
+전에도 루비를 설치했던 일부 맥에는
+루비 설치 단계에서 'rvm install ruby-1.9.3'를 실행하면 다음과 같은 에러가 발생합니다.
+
+
+20111113 Hasang
+
+Xcode 설치 ㅇ
+http://developer.apple.com/xcode/
+
+RVM 설치
+bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+
+echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+
+source .bash_profile
+
+RVM 업데이트
+rvm get latest
+
+rvm reload
+
+rvm -v
+
+루비 설치
+rvm install ruby-1.9.3
+
+rvm --default use ruby-1.9.3
+
+ruby -v
+
+Gem 업데이트
+gem -v
+
+gem update --system
+
+rvm ruby-1.9.3@rails311 --create --default
+
+rvm gemset list
+
+gem list
+
+gem update rake
+
+rake --version
+
+레일스 설치
+
+gem install rails
+
+rails -v
+
+
+
+Rails Tutorials 참고
+http://ruby.railstutorial.org/ruby-on-rails-tutorial-book#sec:rubygems
+
+https://rvm.beginrescueend.com/rvm/install/
+
+http://railsapps.github.com/installing-rails-3-1.html

@@ -1,0 +1,11 @@
+<fieldset class= "well">
+	출장보고서
+	<%= f.input :participants, :label => '회의참가자' %>
+	<%= f.input :start, :label => '시작' %>
+	<%= f.input :end, :label => '끝' %>
+	<%= f.input :perpose, :label => '회의안건' %>
+	<%= f.input :location, :label => '회의장소' %>
+	<%= f.input :content, :label => '회의내용' %>
+	<%= f.hidden_field :_destroy %>
+	<%= link_to "삭제", '#', id: "remove_fields", class: "btn btn-mini btn-danger" %>
+</fieldset>

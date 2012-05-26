@@ -1,0 +1,40 @@
+<div id="meetings" class= "well">
+	<h3>회의록</h3>
+		<div class = "well">
+			<p>
+			  <b>회의참석자 : </b>
+			  <%= meeting.participants %>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>회의일시 : </b>
+			  <%= meeting.start.strftime("%Y-%m-%d %H:%M")+"~"+meeting.end.strftime("%Y-%m-%d %H:%M")%>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>회의안건 : </b>
+			  <%= meeting.perpose %>
+			</p>
+		</div>
+		
+		<div class = "well">
+			<p>
+			  <b>회의장소 : </b> 
+			  <%= meeting.location %>
+			</p>
+		</div>
+
+		<div class = "well">
+			<p>
+			  <b>회의 내용</b><br>
+			  <%= meeting.content.gsub(/\n/, "<br />").html_safe %>
+			</p>
+		</div>
+	
+
+  <div class="clear"></div>
+</div>

@@ -1,0 +1,955 @@
+{\rtf1\ansi\ansicpg949\cocoartf1138\cocoasubrtf320
+{\fonttbl\f0\fnil\fcharset0 Georgia;\f1\fnil\fcharset129 AppleGothic;\f2\fmodern\fcharset0 Courier-Bold;
+\f3\fmodern\fcharset0 Courier;\f4\fswiss\fcharset0 ArialMT;\f5\fnil\fcharset0 Verdana;
+\f6\froman\fcharset0 Times-Roman;\f7\fswiss\fcharset0 Helvetica;\f8\fnil\fcharset0 Menlo-Regular;
+\f9\fnil\fcharset129 Gulim;\f10\fnil\fcharset0 Consolas;\f11\fnil\fcharset0 Monaco;
+\f12\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red83\green83\blue83;\red234\green234\blue234;\red0\green0\blue114;
+\red8\green8\blue8;\red26\green26\blue26;\red211\green0\blue0;\red38\green38\blue38;\red117\green117\blue117;
+\red246\green246\blue246;\red223\green217\blue210;\red129\green0\blue100;\red52\green52\blue52;\red250\green255\blue47;
+\red31\green31\blue31;\red29\green112\blue0;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww19100\viewh14600\viewkind0
+\deftab720
+\pard\pardeftab720\sl440
+
+\f0\fs26 \cf2 \cb3 rake db:migrate RAILS_ENV=production
+\f1\fs34 \cf0 \cb1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural
+\cf0 \
+\
+\'bf\'b9\'bd\'c3 . \'b1\'b3\'c5\'eb\'ba\'f1 ok\
+\'c4\'da\'b8\'e0\'c6\'ae text ok \
+\'bf\'a9\'ba\'f1\'c1\'a4\'bb\'ea\'bc\'ad \'c4\'da\'b8\'e0\'c6\'ae ok\
+\'b0\'e3\'c4\'a1\'b4\'c2\'b0\'c5 \'c5\'d7\'bd\'ba\'c6\'ae\
+\
+\
+mysql\
+\
+bootstrap\
+\
+devise\
+\
+\'c0\'cf\'c0\'da \
+\pard\pardeftab720\sl440
+\cf0 \'c6\'c0\'b8\'ed \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural
+\cf0 \'c8\'b0\'b5\'bf\'b3\'bb\'bf\'eb\
+\'c1\'d6\'b0\'a3 \'b8\'f1\'c7\'a5\
+\pard\pardeftab720\sl360
+
+\f2\b\fs30 \cf4 $
+\f3\b0 \cf5  rails generate migration add_admin_to_users admin:boolean\
+rails generate migration add_level_to_users level:integer\
+\
+\
+
+\f1 \'b3\'af\'c2\'a5 \'b1\'dd\'be\'d7 \'c0\'cc\'b8\'a7 \'ba\'d0\'b7\'f9 \'c1\'d6\'bc\'d2
+\f3 \
+\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural
+
+\f1\fs34 \cf0 rails g migration add_photo_to_grounds\
+\'c0\'cf\'c0\'da  data  : string\
+\'c6\'c0\'b8\'ed  name : user_id\
+\'c2\'fc\'bc\'ae\'c0\'da participants : string\
+\'b8\'e0\'c5\'e4\'b8\'b5\'b3\'bb\'bf\'eb content : string\
+\'c1\'d6\'b0\'a3\'b8\'f1\'c7\'a5  task :string \
+\pard\pardeftab720\sl440
+\cf0 \
+t.string   "name"\
+    t.boolean  "admin",                  :default => false\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardeftab720\pardirnatural
+\cf0 \
+\
+//\'c7\'c1\'b7\'ce\'c1\'a7\'c6\'ae\'bb\'fd\'bc\'ba, mysql\
+rails new Mentobook -d mysql mentobook\
+\
+\pard\pardeftab720\sl300
+
+\f4 \cf6 sudo ln -s /usr/local/mysql/lib/libmysqlclient.18.dylib /usr/lib/libmysqlclient.18.dylib
+\f5 \cf0 \
+\pard\pardeftab720\sl360
+
+\f6 \cf7 use mysql
+\f5 \cf0 \
+\pard\pardeftab720\sl300
+\cf0 \
+mysql -u root\
+\pard\pardeftab720\sl360
+
+\f4\fs36 \cf6 1) sudo /Library/StartupItems/MySQLCOM/MySQLCOM start\
+2) sudo /Library/StartupItems/MySQLCOM/MySQLCOM stop\
+\pard\pardeftab720\sl300
+
+\f5\fs34 \cf0 \
+\
+devise\
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 gem 'devise' 
+\f1 \'c3\'df\'b0\'a1
+\f7 \
+\
+rails new Mento\
+devise 
+\f1 \'bc\'b3\'c4\'a1
+\f3\fs34 \cf9 \cb10 rails generate devise:install\cf8 \
+\pard\pardeftab720\sl440
+{\field{\*\fldinst{HYPERLINK "https://github.com/sferik/rails_admin"}}{\fldrslt 
+\f7\fs38 \cf8 \cb1 https://github.com/sferik/rails_admin}}
+\f7\fs38 \cf8 \cb1 \
+adm
+\f1 in \'bc\'b3\'c4\'a1
+\f7 \
+db:migrate\
+\
+\
+bootstrap\
+rails g scaffold receipt user_id:integer name date amount:integer address classification\
+rails g scaffold 
+\f1 report user_id:integer
+\fs34 \cf0  content:text task:text --skip-stylesheets\
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 rails g scaffold 
+\f1 Wday name:string
+\fs34 \cf0  --skip-stylesheets\
+
+\f7\fs38 \cf8 rails g scaffold 
+\f1 Weekreport team_id:integer 
+\f7 start:datetime end:datetime participants location goal
+\f1  contents:text
+\fs34 \cf0  result --skip-stylesheets\
+
+\f7\fs38 \cf8 rails g scaffold Monthreport team_id:integer s\
+\
+rails g scaffold 
+\f1 report user_id:integer
+\fs34 \cf0  participants content:text task:text --skip-stylesheets\
+
+\f7\fs38 \cf8 rails g scaffold 
+\f1 notify start:datetime
+\fs34 \cf0  end:datetime  --skip-stylesheets\
+
+\fs38 \cf8 rails g scaffold formation name --skip-stylesheets
+\f7 \
+rails g scaffold ground user_id:integer title location time:datetime \
+rails g scaffold dayreport user_id:integer weekreport_id:integer year:integer month:
+\f1 integer date:integer day:integer contents:text 
+\fs34 \cf0 --skip-stylesheets
+\f7\fs38 \cf8 \
+rails g scaffold Photo entry_id:integer name 
+\f1\fs34 \cf0 --skip-stylesheets
+\f7\fs38 \cf8 \
+rails g scaffold Business_trip_report entry_id:integer 
+\f1 participants start:datetime end:datetime perpose location  interviewee content:text result:text 
+\fs34 \cf0 --skip-stylesheets
+\f7\fs38 \cf8 \
+\
+\
+rails g scaffold Travel_expense_report entry_id:integer 
+\f1 participants start:datetime end:datetime perpose location note:text\
+
+\f7 rails g scaffold Expense travel_expense_report_id:integer classification 
+\f1 date:datetime amount:integer pay_method_id:integer note\
+
+\f7 rails g model 
+\f1 Meeting
+\f7  entry_id:integer 
+\f1 participants start:datetime end:datetime perpose location content:text\
+\
+ perpose location note:text
+\f7 \
+description:text \
+\pard\pardeftab720\sl340
+
+\f8\fs36 \cf11 \cb6 rake db:migrate\
+\
+\
+\
+gem 'twitter-bootstrap-rails'\
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 \cb1 \
+\pard\pardeftab720\sl340
+
+\f8\fs36 \cf11 \cb6 rails g bootstrap:install\
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 \cb1 \
+
+\f1 \'b5\'f0\'b9\'d9\'c0\'cc\'bd\'ba \'c8\'ae\'c0\'e5
+\f7 \
+\pard\pardeftab720\sl380
+
+\f3\fs34 \cf8 \cb10 rails g devise\cf12 :views\cf8 \
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 \cb1 \
+//
+\f1 \'b7\'e7\'c6\'ae 
+\f7 \
+root :to => 'reports#index'\
+\
+\
+\
+//
+\f1 \'b4\'d9\'b4\'dc
+\f7 \
+<div class="container">\
+	<div class="row">\
+    <div class="span9"><%= yield %></div>\
+    <div class="span3">\
+      <h2>About Us</h2>\
+      <p>Lorem ipsum dolor sit amet, </p>        \
+    </div>\
+  </div>\
+</div>\
+\
+\
+\
+//
+\f1 \'b3\'d7\'ba\'f1\'b0\'d4\'c0\'cc\'bc\'c7 \'b9\'d9
+\f7 \
+\
+<div class= "navbar navbar-fixed-top">\
+  <div class= "navbar-inner">\
+    <div class= "container">\
+      <a class= "btn btn-navbar" data-toggle="collapse" data-target=".collapse">\
+        <span class= "icon-bar"></span>\
+        <span class= "icon-bar"></span>\
+        <span class= "icon-bar"></span>\
+      </a>\
+      <a class= "brand" href="#">Some Store</a>\
+      <div class= "nav-collapse">\
+        <ul class= "nav">\
+          <li><%= link_to "Browse Products", reports_path %></li>\
+          <li><%= link_to "Price List" %></li>\
+          <li><%= link_to "Contact Us" %></li>\
+          <li><%= link_to "Cart" %></li>\
+        </ul>\
+      </div>\
+    </div>\
+  </div>\
+</div>\
+\
+\
+body \{ padding-top: 60px; \}\
+\
+\
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+\
+\pard\pardeftab720\sl340
+
+\f8\fs36 \cf11 \cb6  rails g bootstrap:themed products -f\
+\
+\
+  <% flash.each do |name, msg| %>\
+    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">\
+	 		<a class="close" data-dismiss="alert">\
+      <%= msg  %>\
+    </div>\
+  <% end %>\
+  \
+  \
+\
+\
+   validates_presence_of :name, :user_id, :content\
+\
+gem 'simple_form'\
+rails g simple_form:install --bootstrap\
+\
+\pard\pardeftab720\sl340
+
+\f1 \cf11 \'b7\'ce\'b1\'d7\'c0\'ce \'c3\'a2
+\f8 \
+{\field{\*\fldinst{HYPERLINK "https://github.com/plataformatec/devise/wiki/How-To:-Add-sign_in,-sign_out,-and-sign_up-links-to-your-layout-template"}}{\fldrslt https://github.com/plataformatec/devise/wiki/How-To:-Add-sign_in,-sign_out,-and-sign_up-links-to-your-layout-template}}\
+
+\f1 \
+\pard\pardeftab720\sl340
+
+\f8 \cf11 \
+\pard\pardeftab720\sl340
+
+\f1 \cf11 \'c0\'cc\'b8\'a7\'c0\'b8\'b7\'ce \'b7\'ce\'b1\'d7\'c0\'ce 
+\f8 \
+https://github.com/plataformatec/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address\
+\
+\
+\
+<%= simple_form_for @ground, :html => \{ :class => 'form-horizontal' \} do |f| %>\
+  <fieldset>\
+    <legend><%= controller.action_name.capitalize %> Ground</legend>\
+\
+		\
+    <div class="control-group">\
+      <%= f.label :user_id, :class => 'control-label' %>\
+      <div class="controls">\
+        <%= f.number_field :user_id, :class => 'number_field' %>\
+      </div>\
+    </div>\
+\
+    <div class="control-group">\
+      <%= f.label :title, :class => 'control-label' %>\
+      <div class="controls">\
+        <%= f.text_field :title, :class => 'text_field' %>\
+      </div>\
+    </div>\
+\
+    <div class="control-group">\
+      <%= f.label :location, :class => 'control-label' %>\
+      <div class="controls">\
+        <%= f.text_field :location, :class => 'text_field' %>\
+      </div>\
+    </div>\
+\
+    <div class="control-group">\
+      <%= f.label :time, :class => 'control-label' %>\
+      <div class="controls">\
+        <%= f.datetime_select :time, :class => 'datetime_select' %>\
+      </div>\
+    </div>\
+\
+    <div class="control-group">\
+      <%= f.label :description, :class => 'control-label' %>\
+      <div class="controls">\
+        <%= f.text_area :description, :class => 'text_area' %>\
+      </div>\
+    </div>\
+\
+    <div class="form-actions">\
+      <%= f.submit nil, :class => 'btn btn-primary' %>\
+      <%= link_to 'Cancel', grounds_path, :class => 'btn' %>\
+    </div>\
+  </fieldset>\
+<% end %>\
+\
+<%= f.input :user_id %>\
+    <%= f.input :title %>\
+		<%= f.input :location %>\
+		<%= f.input :time %>\
+		<%= f.input :description %>\
+\
+\
+\
+no-auto-rehash\
+# Remove the next comment character if you are not familiar with SQL\
+#safe-updates\
+\
+\
+\pard\pardeftab720\sl420
+
+\f9\fs34 \cf2 \cb1 \kerning1\expnd-4\expndtw-20
+\
+CREATE DATABASE  opencollege_development DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;\
+CREATE DATABASE  socialcube_development DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;\
+\
+\'c0\'af\'c0\'fa \'b7\'ce\'b1\'d7\'c0\'ce \'a4\'b7\'a4\'bb\
+\
+\'c0\'af\'c0\'fa\'b0\'a1 \'b8\'b8\'b5\'e9 \'bc\'f6 \'c0\'d6\'b5\'b5\'b7\'cf \'a4\'b7\'a4\'bb\
+ \
+\'c6\'e4\'c0\'cc\'bd\'ba\'ba\'cf \'bf\'ac\'b5\'bf \'a4\'b7\'a4\'bb\
+\
+\'b4\'d9\'b8\'a5 \'c0\'af\'c0\'fa\'b0\'a1 \'c2\'fc\'bf\'a9\'c7\'d2 \'bc\'f6 \'c0\'d6\'b5\'b5\'b7\'cf(\'c2\'fc\'bf\'a9\'c0\'da\'ba\'b8\'c0\'cc\'b1\'e2) \'a4\'b7\'a4\'bb\
+\
+\'b0\'f8\'b0\'dd \'bc\'f6\'ba\'f1 \'c5\'b0\'c6\'db \'a4\'b7\'a4\'bb\
+\
+\'b1\'d7\'b6\'f3\'bf\'ee\'b5\'e5 - \'c1\'a1\'bc\'f6\
+\
+\'c6\'f7\'b8\'de\'c0\'cc\'bc\'c7 \
+\
+\'bd\'c2/\'c6\'d0 \'ba\'b8\'c0\'cc\'b1\'e2 \'b5\'ee\'bc\'f6. \'b8\'ed\'bf\'b9\'c0\'c7 \'c0\'fc\'b4\'e7 \
+\
+\'c6\'f7\'c0\'ce\'c6\'ae\'bf\'a1 \'b5\'fb\'b6\'f3 \'c8\'a4\'c0\'ba \'b5\'ee\'bc\'f6\'bf\'a1\'b5\'fb\'b6\'f3 \'c1\'a4\'b7\'c4 \
+\
+\'b4\'f1\'b1\'db \'b4\'de \'bc\'f6 \'c0\'d6\'b5\'b5\'b7\'cf\
+\
+\'b4\'d9\'b8\'a5\'bb\'e7\'b6\'f7\'c0\'cc \'b0\'a2 \'c6\'c0 \'bf\'a1\'bc\'ad \'bd\'c2\'c0\'ce\'c7\'cf\'b8\'e9 \'b5\'c7\'b4\'c2\'b0\'c5 \
+\
+\'b8\'b6\'b0\'a8\'bd\'c3\'b0\'a3\
+\
+\'bb\'e7\'c1\'f8\
+\
+after\'b0\'a1 \'b5\'c7\'b0\'ed\
+\'ba\'b8\'bf\'cf\
+1. ground show \'ba\'b8\'c0\'cc\'b4\'c2\'b0\'c5\
+\
+\
+\
+1.  \'ba\'b8\'bf\'a9\'c1\'f8\'a4\'a4\'b0\'cd\'c1\'a4\'b8\'ae\
+2. \'c5\'b6\'b4\'de\'b1\'e2\
+3. \'bb\'e7\'c1\'f8\
+4. \'c0\'e5\'bc\'d2 \'c1\'f6\'b5\'b5\
+5. \'b3\'bb\'b0\'a1 \'b9\'ab\'bd\'bc \'c6\'f7\'c1\'f6\'bc\'c7\'c0\'bb \'c7\'df\'be\'fa\'b0\'ed\
+6. \'b8\'f0\'c1\'fd\'c0\'ce\'bf\'f8\
+7. \'bd\'ba\'c4\'da\'be\'ee\'b8\'a6 user has many \'b7\'ce \'b0\'a1\'c1\'f6\'b0\'ed \'c0\'d6\'b4\'c2 \'bc\'c0\
+8. \'c6\'f7
+\f1\fs38 \cf8 \kerning1\expnd0\expndtw0 \'c1\'f6
+\f9\fs34 \cf2 \kerning1\expnd-4\expndtw-20
+\'bc\'c7\'b5\'b5 \'c4\'ab\'c5\'d7\'b0\'ed\'b8\'ae\'c8\'ad  ground has many position  participation has many posiion\
+\'c6\'c0\'b5\'b5 ground has many , participation has many\
+\
+\'b4\'c9\'b7\'c2\'c4\'a1\'b0\'a1 \'c0\'cc\'b9\'cc\'c1\'f6\'b7\'ce \'ba\'b8\'c0\'d3\
+\
+\'b5\'ce\'b0\'b3\'c0\'c7 \'c1\'b6\'b0\'c7\'c0\'b8\'b7\'ce \'c3\'a3\'b0\'c5\'b3\'aa\
+\'c0\'d6\'b4\'c2\'b0\'c5 \'b0\'cb\'bb\'f6\'c7\'d8\'bc\'ad \'c3\'a3\'b1\'e2 \
+\
+\'b8\'f0\'b5\'e7 \'c2\'fc\'b0\'a1\'c0\'da\'b5\'e9\'bf\'a1\'b0\'d4 \'bd\'ba\'c4\'da\'be\'ee\'b0\'a1 \'c3\'df\'b0\'a1\'b5\'ca. \
+\
+\
+\'b3\'bb\'ba\'ce \'b7\'ce\'c1\'f7\'bb\'f3 \'be\'c8\'b5\'c7\'b4\'c2\'b0\'c5 \
+1. \'bb\'e7\'c1\'f8 \'be\'f7\'b7\'ce\'b5\'e5 \
+2. \'c5\'b6\'b4\'de\'b1\'e2 \
+3. \'b8\'b6\'b0\'a8\'bd\'c3\'b0\'a3\
+\'c7\'cf\'b7\'e7\'c0\'fc\'bf\'a1 \'b8\'b6\'b0\'a8\'b5\'ca. \
+\'c7\'cf\'b7\'e7 \'c0\'fc\'c0\'cc \'b5\'c7\'b8\'e9 before\'b7\'ce \'b9\'d9\'b2\'ee\'b0\'ed \'c3\'eb\'bc\'d2\'b0\'a1 \'b5\'c7\'c1\'f6 \'be\'ca\'c0\'bd\
+\'c3\'d1 \'c0\'ce\'bf\'f8\'c0\'cc \'c3\'a4\'bf\'f6\'c1\'f6\'c1\'f6 \'be\'ca\'c0\'b8\'b8\'e9 \'b0\'e6\'b1\'e2 \'c3\'eb\'bc\'d2 \'b5\'c7\'b4\'c2 \'b0\'cd, \'c3\'eb\'bc\'d2 \'be\'c8\'b5\'c7\'b4\'c2\'b0\'cd \
+\'c3\'d6\'bc\'d2\'c0\'ce\'bf\'f8 \'b8\'b6\'c1\'f6\'b3\'eb\'bc\'b1 \
+\
+\'bd\'c3\'b0\'a3\'c0\'cc \'c1\'a6\'b4\'eb\'b7\'ce \'b5\'c6\'b4\'c2\'c1\'f6 \'ba\'bb\'b4\'d9. \
+\
+\'b8\'b8\'be\'e0 \'bd\'c3\'b0\'a3\'c0\'cc \'c7\'cf\'b7\'e7\'c0\'fc\'c0\'cc\'b6\'f3\'b8\'e9, \
+\'c0\'ce\'bf\'f8\'c0\'cc \'c1\'a6\'b4\'eb\'b7\'ce \'b5\'c6\'b4\'c2\'c1\'f6 \'c1\'a6\'b4\'eb\'b7\'ce \'b5\'c6\'b4\'c2\'c1\'f6 \'ba\'bb\'b4\'d9. \'c0\'ce\'bf\'f8\'a4\'b7\'a4\'a9 \'b8\'c2\'c3\'e8\'c0\'b8\'b8\'e9 before \'b8\'c2\'c3\'df\'c1\'f6 \'b8\'f8\'c7\'df\'c0\'b8\'b8\'e9 cancel\
+\
+\'a4\'b1\'a4\'a4\'a4\'b7\'a4\'a9\
+\
+4. \'b0\'e1\'c1\'a6\
+5. \'bf\'a9\'b7\'af\'b8\'ed\'c0\'cc \'bd\'c2\'c0\'ce\'c7\'cf\'b8\'e9 \'be\'f7\'b5\'a5\'c0\'cc\'c6\'ae\
+6. \'c6\'c0 \'b8\'b8\'b5\'e9\'b1\'e2 (\'b1\'c7\'c7\'d1 \'b7\'b9\'ba\'a7 \'be\'ee\'b4\'c0\'c1\'a4\'b5\'b5 \'c0\'cc\'bb\'f3)(\'c3\'b3\'c0\'bd \'bb\'fd\'b1\'e4\'c6\'c0)\
+7. \'b7\'b9\'ba\'a7 \'b8\'b8\'b5\'e9\'b1\'e2\
+8. \'c6\'c0 \'b4\'eb\'c7\'d7\'c0\'fc \
+9. \'c0\'af\'c0\'fa\'b4\'c9\'b7\'c2\'c4\'a1\
+\
+\
+\
+\pard\pardeftab720\sl440
+
+\f7\fs38 \cf8 \kerning1\expnd0\expndtw0 rails g scaffold 
+\f1 Recordbook ground_id:integer 
+\f7 user_id:integer position_id:
+\f1 integer result:integer  score
+\fs34 \cf0  --skip-stylesheets\
+\pard\pardeftab720\sl420
+
+\f9 \cf2 \kerning1\expnd-4\expndtw-20
+\
+\'bd\'ba\'c4\'da\'be\'ee user has many  \
+	ground has many\
+	\
+recordbook \
+ground_id,  user_id,  position_id  result score \
+\
+\
+utf \'c7\'d8\'b0\'e1CREATE DATABASE \'b5\'a5\'c0\'cc\'c5\'cd\'ba\'a3\'c0\'cc\'bd\'ba\'b8\'ed DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;\
+\
+	<% allateam = []%>\
+		<div>A\'c6\'c0\
+		<%= allateam = getteam('a')%>\
+		</div>\
+\
+<% if user_signed_in? %>\
+\
+\
+	<div class="status-control <%= current_user.participates_in?(@ground) ? 'li-freeze' : 'li-normal' %>">\
+		<div class="seed-digit" id="participation-digit"><%= @ground.participations.count %></div>	\
+		\
+		\
+		\
+		<% allateam = []%>\
+		<div>A\'c6\'c0\
+		<%= allateam = getteam('a')%>\
+		</div>\
+		\
+		<% allbteam = []%>\
+		<div>B\'c6\'c0\
+		<%= allbteam = getteam('b')%>\
+		</div>\
+		\
+		<% if current_user.participates_in?(@ground) %>\
+			<div class="seed-description">\'c2\'fc\'bf\'a9\'c7\'df\'bd\'c0\'b4\'cf\'b4\'d9.</div>\
+			<%= link_to "x", current_user.participations.find_by_ground_id(@ground.id), \
+			:method => :delete, :remote => true, :confirm => "\'c1\'a4\'b8\'bb\'b7\'ce \'c2\'fc\'bf\'a9\'b8\'a6 \'c3\'eb\'bc\'d2\'c7\'cf\'bd\'c3\'b0\'da\'bd\'c0\'b4\'cf\'b1\'ee?", :class => "cancel-button" %>\
+		<% else %>\
+	\
+			A \'c6\'c0\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'forward'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c6\'f7\'bf\'f6\'b5\'e5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>	\
+		\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'back'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'bc\'f6\'ba\'f1", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'midfield'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'keeper'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c5\'b0\'c6\'db", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+		\
+		\
+		\
+		\
+			B \'c6\'c0\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'forward'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c6\'f7\'bf\'f6\'b5\'e5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>	\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'back'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'bc\'f6\'ba\'f1", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'midfield'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'keeper'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c5\'b0\'c6\'db", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+		<% end %>\
+	</div>\
+\
+\
+\
+<% end %>\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+		<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'back'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'bc\'f6\'ba\'f1", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'midfield'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'a', :position => 'keeper'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c5\'b0\'c6\'db", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+		\
+		\
+		\
+		\
+			B \'c6\'c0\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'forward'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c6\'f7\'bf\'f6\'b5\'e5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>	\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'back'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'bc\'f6\'ba\'f1", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'midfield'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+			<div class="seed-description">\
+				<%= form_for current_user.participations.build(:ground_id => @ground.id,:team => 'b', :position => 'keeper'), :remote => true do |f| %>\
+					<%= f.hidden_field :ground_id %>\
+					<%= f.hidden_field :position %>\
+					<%= f.hidden_field :team %>\
+					<%= f.submit "\'c5\'b0\'c6\'db", :class => "ground-participation-button" %>\
+				<% end %>\
+			</div>\
+		<% end %>\
+	</div>\
+\
+\
+\
+<% end %>\
+\
+\
+\
+	A \'c6\'c0\
+			<% if allateam[0].count < @ground.forwardcount%>\
+				<div>\
+					<%= teamForm('a','forward','\'b0\'f8\'b0\'dd\'bc\'f6') %>\
+				</div>	\
+			<% end %>\
+			<% if allateam[1].count < @ground.midfieldcount%>\
+				<div >\
+						<%= teamForm('a','midfield','\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5') %>\
+				</div >\
+			<% end %>	\
+			<% if allateam[2].count < @ground.backcount%>\
+				<div >\
+						<%= teamForm('a','back','\'bc\'f6\'ba\'f1\'bc\'f6') %>\
+				</div >\
+			<% end %>\
+			<% if allateam[3].count < @ground.keepercount%>\
+				<div >\
+						<%= teamForm('a','keeper','\'b0\'f1\'c5\'b0\'c6\'db') %>\
+				</div >\
+			<% end %>\
+			\
+			B\'c6\'c0\
+			<% if allbteam[0].count < @ground.forwardcount%>\
+				<div>\
+					<%= teamForm('b','forward','\'b0\'f8\'b0\'dd\'bc\'f6') %>\
+				</div>	\
+			<% end %>\
+			<% if allbteam[1].count < @ground.midfieldcount%>\
+				<div >\
+						<%= teamForm('b','midfield','\'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5') %>\
+				</div >\
+			<% end %>	\
+			<% if allbteam[2].count < @ground.backcount%>\
+				<div >\
+						<%= teamForm('b','back','\'bc\'f6\'ba\'f1\'bc\'f6') %>\
+				</div >\
+			<% end %>\
+			<% if allbteam[3].count < @ground.keepercount%>\
+				<div >\
+						<%= teamForm('b','keeper','\'b0\'f1\'c5\'b0\'c6\'db') %>\
+				</div >\
+			<% end %>\
+\
+\
+\pard\pardeftab720\sl360
+
+\f3\fs40 \cf5 \kerning1\expnd0\expndtw0 user.update_attributes(:team_status => "accept")\
+\
+\
+<div>
+\f1 \'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5
+\f3 (<%= @ground.ateammidfield.length%>)\
+			<% @ground.ateammidfield.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		<div>
+\f1 \'bc\'f6\'ba\'f1\'bc\'f6
+\f3 (<%= @ground.ateamback.length%>)\
+			<% @ground.ateamback.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		<div>
+\f1 \'b0\'f1\'c5\'b0\'c6\'db
+\f3 (<%= @ground.ateamkeeper.length%>)\
+			<% @ground.ateamkeeper.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		\
+		<br>B
+\f1 \'c6\'c0
+\f3  <br>\
+		\
+		<div>
+\f1 \'b0\'f8\'b0\'dd\'bc\'f6
+\f3 (<%= @ground.bteamforward.length%>)\
+			<% @ground.bteamforward.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		<div>
+\f1 \'b9\'cc\'b5\'e5\'c7\'ca\'b4\'f5
+\f3 (<%= @ground.bteammidfield.length%>)\
+			<% @ground.bteammidfield.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		<div>
+\f1 \'bc\'f6\'ba\'f1\'bc\'f6
+\f3 (<%= @ground.bteamback.length%>)\
+			<% @ground.bteamback.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+		<div>
+\f1 \'b0\'f1\'c5\'b0\'c6\'db
+\f3 (<%= @ground.bteamkeeper.length%>)\
+			<% @ground.bteamkeeper.all.each do |player| %>\
+				<%= player.email %>\
+			<% end %>\
+		</div>\
+\
+\
+1. 
+\f1 \'c5\'b6 \'b5\'ee\'b7\'cf \'be\'f8\'be\'d6\'b1\'e2 
+\f3 \
+2. 
+\f1 \'bb\'e7\'c1\'f8 
+\f3  
+\f1 \'b0\'b3\'c0\'ce \'bb\'e7\'c1\'f8\'b0\'fa \'bf\'c3\'b8\'ae\'b1\'e2 
+\f3 \
+\
+\
+
+\f1 \'c0\'ce\'b5\'a6\'bd\'ba \'b9\'d9\'b2\'d9\'b1\'e2\
+\'be\'f7\'b5\'a5\'c0\'cc\'c6\'ae uniq\
+validate\
+\
+show \'b9\'d9\'b2\'d9\'b1\'e2\
+\
+\
+\
+\'bb\'e7\'b6\'f7\'b5\'e9 \'b7\'a9\'c5\'b7 \'bc\'f8. \
+\'bb\'e7\'c1\'f8\
+\'c1\'f6\'b5\'b5 \
+\'c0\'af\'c0\'fa \'c5\'eb\'b0\'fa\
+\'b1\'e2\'ba\'bb\'c1\'a4\'ba\'b8\
+\'b0\'e1\'c1\'a6\
+\'c1\'a6\'c7\'d1 \'b3\'af\'c2\'a5\'c1\'a4\'c7\'cf\'b1\'e2\
+
+\f3 \
+\
+crop\
+
+\f1 \'c8\'b8\'bf\'f8\'be\'e0\'b0\'fc
+\f3 \
+
+\f1 \
+\'c1\'f6\'b5\'b5 \
+\'b0\'e1\'c1\'a6\
+i18n\
+pagination\
+\
+\
+\
+\'b8\'ed\'bf\'b9\'c0\'c7\'c0\'fc\'b4\'e7 \
+\'c6\'e4\'c0\'cc\'bd\'ba\'ba\'cf\
+\
+\
+\'c3\'b3\'c0\'bd\'bf\'a1 \'c1\'a4\'ba\'b8\
+\'b7\'b9\'ba\'a7\
+\'b1\'e2\'ba\'bb\'c1\'a4\'ba\'b8 
+\f3 :
+\f1 \'c1\'c1\'be\'c6\'c7\'cf\'b4\'c2 \'c3\'e0\'b1\'b8\'bc\'b1\'bc\'f6, \'c3\'e0\'b1\'b8 \'c5\'ac\'b7\'b4, \'bf\'c0\'b8\'a5\'b9\'df,\'bf\'de\'b9\'df, \'bc\'d2\'bc\'d3\'c6\'c0\
+\
+0-10 1\
+10-30 2\
+30-60 3\
+60-100 4\
+100-150 5\
+150-210 6\
+210-280 7\
+290- 370 8\
+370- 460 9\
+460 - 560 10 \
+\
+\
+\'bf\'ee\'b5\'bf\'c0\'e5 \'bb\'e7\'c1\'f8\
+
+\f3 		\
+\
+\pard\pardeftab720\sl360
+
+\f10\fs28 \cf0 \cb3 rake routes\
+\
+
+\fs52 \
+describe "PUT 'update'" do  \
+    before(:each) do\
+      @request.env["devise.mapping"] = Devise.mappings[:user]\
+      @user = Factory(:user, :team => @first_team)\
+      sign_in @user\
+      @team = @user.team\
+      @entry = Factory(:entry, :user => @user, :team =>@team)\
+    end\
+    \
+    describe "unsigned_in users" do   \
+       before(:each) do\
+         sign_out @user\
+         @attr = \{ :user_id => @user, :team_id => @team, :amount => 10, :vendor => "change vendor", :summary => "right summary"\}\
+       end\
+\
+       it "should deny access to 'index'" do\
+           put :update, :id => @entry, :entry => @attr\
+           response.should redirect_to(user_session_url)\
+         end     \
+     end\
+    \
+    describe "success" do\
+      before(:each) do\
+        @attr = \{ :user_id => @user, :team_id => @team, :amount => 10, :vendor => "change vendor", :summary => "right summary"\}\
+      end\
+      it "should change the entry's attributes"do\
+        put :update, :id => @entry, :entry => @attr\
+        @entry.reload\
+        @entry.amount.should == @attr[:amount]\
+        @entry.vendor.should == @attr[:vendor]\
+      end\
+      it "should redirect to the entry show page" do\
+        put :update, :id => @entry, :entry => @attr\
+        response.should redirect_to(entry_path(@entry))\
+      end\
+    end\
+    describe "failure" do  \
+      before (:each) do\
+        @attr = \{ :user_id => "", :team_id => "", :vendor => "" \}\
+      end   \
+      it "should render the 'edit' page"do \
+        put :update, :id => @entry, :entry => @attr\
+        response.should render_template('edit')\
+      end\
+    end    \
+  end\
+\
+\
+\
+\
+\pard\pardeftab720
+
+\f11\fs24 \cf1 \cb13 $ cd ~/.ssh\
+\
+\
+\
+$ mkdir key_backup
+\fs20 \
+
+\fs24 $ cp id_rsa* key_backup
+\fs20 \
+
+\fs24 $ rm id_rsa*\
+
+\f10\fs52 \cf0 \cb3 \
+
+\f11\fs24 \cf1 \cb13 $ ssh-keygen -t rsa -C "\cf14 your_email@youremail.com\cf1 "
+\fs20 \
+
+\f10\fs52 \cf0 \cb3 \
+\pard\pardeftab720
+
+\f11\fs24 \cf2 \cb15 pbcopy < ~/.ssh/id_rsa.pub
+\f10\fs52 \cf0 \cb3 \
+\pard\pardeftab720\sl360
+\cf0 \
+\
+\pard\pardeftab720\sl320
+
+\f3\fs28 \cf5 \cb1 bundle \cf16 exec \cf5 annotate --position before\
+\pard\pardeftab720\sl360
+
+\f10\fs52 \cf0 \cb3 \
+\pard\pardeftab720
+
+\f7\fs24 \cf0 \cb1 \uc0\u8251  
+\f1 \'c2\'f7\'b7\'ae\'bf\'ee\'c7\'e0\'bd\'c3
+\f7  \
+
+\f1 \'c0\'cc\'b5\'bf\'b0\'e6\'b7\'ce
+\f7  : 
+\f1 \'c3\'e2\'b9\'df\'c1\'f6
+\f7  (
+\f1 \'c1\'f8\'c8\'ef\'bf\'f8
+\f7 ) 
+\f12 \uc0\u8594 
+\f7  
+\f1 \'b8\'f1\'c0\'fb\'c1\'f6
+\f7  = 00km\
+
+\f1 \'c0\'af\'b7\'f9\'b4\'dc\'b0\'a1
+\f7  : 200
+\f1 \'bf\'f8
+\f7  (
+\f1 \'b0\'ed\'c1\'a4
+\f7 )\
+
+\f1 \'c0\'af\'b7\'f9\'b1\'dd\'be\'d7
+\f7  : 
+\f1 \'c0\'cc\'b5\'bf\'b0\'e6\'b7\'ce
+\f7  \'d7
+\f1 \'c0\'af\'b7\'f9\'b4\'dc\'b0\'a1
+\f7 \
+
+\f1 \'c5\'eb\'c7\'e0\'b7\'e1
+\f7  
+\f1 \'b9\'d7
+\f7  
+\f1 \'c1\'d6\'c2\'f7\'b7\'e1
+\f7  : 
+\f1 \'bf\'b5\'bc\'f6\'c1\'f5
+\f7  
+\f1 \'c1\'f6\'c2\'fc\'bd\'c3
+\f7  
+\f1 \'c0\'ce\'c1\'a4
+\f10\fs52 \cb3 \
+\pard\pardeftab720\sl360
+
+\fs28 \cf0 \
+}

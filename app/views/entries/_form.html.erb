@@ -3,21 +3,50 @@
     <legend>새로운 지출 내역</legend>
 		<% if current_user.mentor_approved? %>
 			<div>기관명: <%= current_user.organization.name %></div>
+		<% elsif current_user.head_approved?%>
+			<div>기관명: <%= current_user.head_organization.name %></div>
 		<% else %>
 			<div>팀명: <%= current_user.team.name %></div>
 		<% end %>
 		<div>성명: <%= current_user.korean_full_name %></div>
+		
+		<%= f.error_notification %>
 		<%= f.hidden_field :user_id%>
 		<%= f.hidden_field :team_id %>
-
     <%= f.input :item_id, :collection => Category.where(:id => 1), :as => :grouped_select, :group_method => :items %>
+		
     <%= f.input :invoice_datetime, :as => :date %>
     <%= f.input :amount %>
     <%= f.input :vendor %>
-    <%= f.input :payment_method, :collection => ["체크카드", "현금결제", "계좌이체"]  %>
-		<%= f.input :summary %>
+    <%= f.input :pay_method_id, :collection => PayMethod.all  %>
+		<%= f.input :purpose %>
+		<%= f.input :summary, :hint => '예: 일반 사무를 위한 노트 외 4종', :as => :text %>
 		
-		<%= f.submit %>
-    
+		<% if @entry.team.mentor?(current_user) %>
+			<%= f.input :comment %>
+		<% end %>
+		
+		
+		<%= f.fields_for :business_trip_reports do |builder| %>
+			<%= render 'business_trip_report_fields', f: builder %>
+		<% end %>	
+		
+		
+		<%= f.fields_for :meetings do |builder| %>
+			<%= render 'meeting_fields', f: builder %>
+		<% end %>	
+		
+		<%= f.fields_for :photos do |builder| %>
+			<%= render 'photo_fields', f: builder %>
+		<% end %>
+		
+		<ul id = "add_button_list">
+			<% unless controller.action_name == "new" %>				
+				<li><%= link_to_add_fields "출장보고서", f, :business_trip_reports%></li>
+				<li><%= link_to_add_fields "회의록", f, :meetings%></li>
+				<li><%= link_to_add_fields "사진", f, :photos %></li>
+			<% end %>
+			<li><%= f.submit :class => "btn btn-danger" %></li>
+    </ul>
   </fieldset>
 <% end %>

@@ -1,0 +1,41 @@
+<h1>Listing business_trip_reports</h1>
+
+<table>
+  <tr>
+    <th>Entry</th>
+    <th>Participants</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Perpose</th>
+    <th>Location</th>
+    <th>Interview</th>
+    <th>Interviewee</th>
+    <th>Content</th>
+    <th>Result</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @business_trip_reports.each do |business_trip_report| %>
+  <tr>
+    <td><%= business_trip_report.entry_id %></td>
+    <td><%= business_trip_report.participants %></td>
+    <td><%= business_trip_report.start %></td>
+    <td><%= business_trip_report.end %></td>
+    <td><%= business_trip_report.perpose %></td>
+    <td><%= business_trip_report.location %></td>
+    <td><%= business_trip_report.interview %></td>
+    <td><%= business_trip_report.interviewee %></td>
+    <td><%= business_trip_report.content %></td>
+    <td><%= business_trip_report.result %></td>
+    <td><%= link_to 'Show', business_trip_report %></td>
+    <td><%= link_to 'Edit', edit_business_trip_report_path(business_trip_report) %></td>
+    <td><%= link_to 'Destroy', business_trip_report, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Business trip report', new_business_trip_report_path %>

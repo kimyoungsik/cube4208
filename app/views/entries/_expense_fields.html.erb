@@ -1,0 +1,9 @@
+<fieldset class= "well">
+	<%= f.input :classification, :label => '구분', :collection => [["교통비","transportation"],["숙박비","accommodation"],["식비","food"],["일비","daily"]] %>
+	<%= f.input :date, :label => '일수/일자' %>
+	<%= f.input :amount, :label => '사용금액', :hint => "교통비 기차(KTX일반실), 버스, 비행기, 선박(일반석) | 숙박비(1박) 30,000 | 식비(1일) 6,000 | 일비(1일) 20,000" %>
+	<%= f.input :pay_method_id, :collection => PayMethod.all %>
+	<%= f.input :note, :label => '비고', :hint => "교통비 마일리지 및 포인트 적립 불가 | 숙박비 토,일은 6천원 추가 | 식비 1일 최대 2만원 | 일비 1일 최대 2만원 "%>				
+	<%= f.hidden_field :_destroy %>
+	<%= link_to "삭제", '#', id: "remove_fields", class: "btn btn-mini btn-danger" %>
+</fieldset>

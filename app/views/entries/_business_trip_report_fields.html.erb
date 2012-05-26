@@ -1,0 +1,19 @@
+<fieldset class= "well">
+	출장보고서
+	<%= f.input :participants, :label => '참가자' %>
+	<%= f.input :start, :label => '시작' %>
+	<%= f.input :end, :label => '끝' %>
+	<%= f.input :perpose, :label => '목적' %>
+	<%= f.input :location, :label => '위치' %>
+	<%= f.input :interviewee, :label => '면담자' %>
+	<%= f.input :content, :label => '내용' %>
+	<%= f.input :result, :label => '의견' %>
+	
+	<%= f.input :note, :label => "여비정산서 비고", :hint =>"*차량운행시 <br />이동경로 : 출발지(진흥원) -> 목적지 = 00km <br />유류단가 : 200원 (고정)<br />유류금액 : 이동경로 x 유류단가 <br /> 통행료 및 주차료 : 영수증 지참시 인정<br /> *일비를 실비로 집행 시 : 1인당 1일 20,000원 기준 집행이 아닌, <br /> 15,500원 실비 집행 등으로 하고자 할 경우 해당 지출내역서와 영수증을 첨부하여야함. ".html_safe %>
+	<%= f.fields_for :expenses do |builder| %>
+		<%= render 'expense_fields', f: builder %>
+	<% end %>
+	<%= link_to_add_fields "비용추가", f, :expenses %>				
+	<%= f.hidden_field :_destroy %>
+	<%= link_to "삭제", '#', id: "remove_fields", class: "btn btn-mini btn-danger" %>
+</fieldset>

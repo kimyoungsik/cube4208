@@ -6,51 +6,55 @@ class EntriesController < ApplicationController
   # GET /entries
   # GET /entries.json
   def index
-    if current_user.mentor_approved? or current_user.head_approved?
+    if current_user.mentor_approved? 
       @entries = []
       # @prev_month_entries = []
-      # current_user.organization.teams.each do |team|
-      #   @entries += team.entries
-      #   @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
-      #   
-      # end
+      current_user.organization.teams.each do |team|
+        # @entries += team.entries
+        @entries += team.entries.find(:all, :conditions => ["status != ?",'approved'])
+        # @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+      end
       
-    else current_user.user_approved?
+    elsif current_user.user_approved?
       @entries = current_user.team.entries
       @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
 
-    # elsif 
-      # @entries = []
-      # @prev_month_entries = []
-      # current_user.head_organization.organizations.each do |organization|
-      #   organization.teams.each do |team|
-      #     @entries += team.entries
-      #     @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
-      #   end
-      # end
-      
+    elsif current_user.head_approved?
+      @entries = []
+    # @prev_month_entries = []
+      current_user.head_organization.organizations.each do |organization|
+        organization.teams.each do |team|
+          @entries += team.entries
+        # @prev_month_entries += team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
+        end
+      end
     end
+      
+    
     # @prev_month_entries = current_user.team.entries.find(:all, :conditions => ["invoice_datetime between ? and ?", Time.now.prev_month.beginning_of_month, Time.now.prev_month.end_of_month])
     # prev_month.beginning_of_month
     @items = []
     Item.where(:category_id => 1).each do |item|
       @items << [item.id, "#{item.category.name} - #{item.name}"]
     end
+    
+    @pay_methods = []
+    PayMethod.all.each do |method|
+      @pay_methods << [method.id,"#{method.name}"]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @entries }
       format.pdf do 
-        entry = validate_entries(@prev_month_entries)
-        if( entry == nil)
-          pdf = EntriesPdf.new(@prev_month_entries)
-          send_data pdf.render, filename: "order_.pdf",
-                                type: "application/pdf",
-                                disposition: "inline"
-        else
-          redirect_to entries_path
-          flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?}"
-        end
+        # entry = validate_entries(@prev_month_entries)
+        pdf = EntriesPdf.new(@prev_month_entries)
+        send_data pdf.render, filename: "order_.pdf",
+                              type: "application/pdf",
+                              disposition: "inline"
+        # unless( entry == nil)
+          # flash[:success] = "#{entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}보고서 =>  승인 안됨 #{'목, 세목 선택' unless entry.item_id} #{'적요 입력 ' if entry.summary.blank?} #{entry.comment unless entry.comment.blank?}"
+        # end
       end
     end
   end
@@ -59,7 +63,10 @@ class EntriesController < ApplicationController
   # GET /entries/1.json
   def show
     @entry = Entry.find(params[:id])
-
+    @pay_methods = []
+    PayMethod.all.each do |method|
+      @pay_methods << [method.id,"#{method.name}"]
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @entry }
@@ -102,13 +109,23 @@ class EntriesController < ApplicationController
   # PUT /entries/1.json
   def update
     @entry = Entry.find(params[:id])
-
-    if @entry.team.mentor?(current_user) or @entry.team.member?(current_user)
-      # @entry.update_attributes(params[:entry])
-      # respond_with @entry
-    
+    if @entry.team.mentor?(current_user) or @entry.team.member?(current_user) or current_user.head_approved?
+      if @entry.status == "rejected" and !@entry.comment.blank?
+        @comment = @entry.comment
+        duplicate_send_email = true
+      end
+        
       respond_to do |format|
         if @entry.update_attributes(params[:entry])
+          if @entry.status == "rejected" and !@entry.comment.blank? and (duplicate_send_email == false or @comment != @entry.comment)
+            UserMailer.send_email(
+            @entry.team.leader_user,
+            "활동비 신청(#{@entry.invoice_datetime.strftime("%Y-%m-%d %H:%M")}) 의 거절 사유",
+            "거절 사유 : #{@entry.comment}",
+            "수정된사항은 48시간 이내 확인됩니다. 문의사항은 답장으로 부탁드립니다.",
+            "#{entry_url(@entry)}"
+            ).deliver
+          end
           format.html { redirect_to @entry, notice: 'Entry was successfully updated.' }
           format.json { head :no_content }
         else
@@ -143,23 +160,25 @@ class EntriesController < ApplicationController
       if current_user.organization_id == @entry.team.organization_id
         ret = true
       end
+    elsif current_user.head_approved?
+      ret = true
     else
       if current_user.team_id == @entry.team_id
         ret = true
       end
     end
+    
     redirect_to entries_path unless ret
   end
 
 
-  def validate_entries(entries)
-    # debugger
-    ret = nil
-    entries.each do |entry|
-      if entry.status == "pending"
-        return ret = entry
-      end
-    end
-    ret
-  end
+  # def validate_entries(entries)
+  #   ret = nil
+  #   entries.each do |entry|
+  #     unless entry.status == "approved"
+  #       return ret = entry
+  #     end
+  #   end
+  #   ret
+  # end
 end

@@ -83,7 +83,6 @@ class OrganizationsController < ApplicationController
   end
   
   private 
-  
   def head_approved
     if !current_user.head_approved?
       redirect_to root_path

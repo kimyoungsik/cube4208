@@ -1,3 +1,4 @@
+#encoding:utf-8
 class ImportsController < ApplicationController
   # GET /imports
   # GET /imports.json
@@ -73,10 +74,15 @@ class ImportsController < ApplicationController
             # find out better solution for time zone setting
             invoice_datetime = Time.new(year.to_i, month.to_i, date.to_i,hour.to_i,min.to_i,sec.to_i)
             invoice_datetime = invoice_datetime + 9.hours
-
+            pay_method_id = nil
+            if payment_method == "신한체"
+              pay_method_id = 1
+            elsif payment_method == "인터넷" or payment_method == "금결PG" or payment_method == "지불BP"
+              pay_method_id = 2
+            end
             @entry = Entry.new(:user_id => @import.user_id, :team_id => @import.team_id, :import_id => @import, :amount => amount, 
-                          :vendor => vendor, :invoice_datetime => invoice_datetime,
-                          :payment_method => payment_method, :branch => branch)
+                          :vendor => vendor, :invoice_datetime => invoice_datetime, 
+                          :payment_method => payment_method, :branch => branch, :pay_method_id => pay_method_id )
             if @entry.save
               success += 1
             else

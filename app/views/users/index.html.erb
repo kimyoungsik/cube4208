@@ -1,32 +1,32 @@
 
 
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#user" data-toggle="tab">일반유저</a></li>
+  <li class="active"><%= link_to "창업팀 멤버", "#user", "data-toggle" => "tab" %></li>
 	<% if current_user.head_approved? or current_user.mentor_approved?%>
-		<li class><a href="#pending_user" data-toggle="tab">대기유저</a></li>
+		<li class><%= link_to "대기 멤버(#{@pending_users.count})", "#pending_user", "data-toggle" => "tab" %></li>
 	<% end %>
 
-  <li class><a href="#mentor" data-toggle="tab">멘토</a></li>
+  <li class><%= link_to "멘토", "#mentor", "data-toggle" => "tab" %></li>
 	<% if current_user.head_approved? %>
-		<li class><a href="#pending_mentor" data-toggle="tab">대기멘토</a></li>
+		<li class><%= link_to "대기 멘토(#{@pending_mentors.count})", "#pending_mentor", "data-toggle" => "tab" %></li>
 	<% end %>
 </ul>
 
 <div class="tab-content">
   <div class="tab-pane active" id="user">
-		<%= render "user_table"%>
+		<%= render "user_table" %>
 	</div>
 	<% if current_user.head_approved? or current_user.mentor_approved? %>
 		<div class="tab-pane" id="pending_user">
-		  	<%= render "pending_user_table"%>
+		  	<%= render "pending_user_table" %>
 		</div>
 	<% end %>
   <div class="tab-pane" id="mentor">
-  	<%= render "mentor_table"%>
+  	<%= render "mentor_table" %>
   </div>
 	<% if current_user.head_approved? %>
   	<div class="tab-pane" id="pending_mentor">
-	  	<%= render "pending_mentor_table"%>
+	  	<%= render "pending_mentor_table" %>
 	  </div>
 	<% end %>
 </div>

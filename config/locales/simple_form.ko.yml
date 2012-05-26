@@ -1,3 +1,5 @@
+en:
+  simple_form:
 ko:
   simple_form:
     labels:
@@ -12,3 +14,13 @@ ko:
       user:
         email: 이메일
         password: 비밀번호
+    "yes": '네'
+    "no": '아니오'
+    required:
+      text: '필수'
+      mark: '*'
+      # You can uncomment the line below if you need to overwrite the whole required html.
+      # When using html, text and mark won't be used.
+      # html: '<abbr title="required">*</abbr>'
+    error_notification:
+      default_message: "에러가 발생했습니다. 다음 메시지를 확인해주세요."

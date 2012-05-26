@@ -1,0 +1,6 @@
+<fieldset class= "well">
+	<%= f.input :image, :label => '불러오기' %>
+	<%= f.input :note, :label => '비고' %>
+	<%= f.hidden_field :_destroy %>
+	<%= link_to "삭제", '#', id: "remove_fields", class: "btn btn-mini btn-danger" %>
+</fieldset>

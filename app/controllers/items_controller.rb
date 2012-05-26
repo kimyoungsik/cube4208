@@ -1,4 +1,5 @@
 class ItemsController < ApplicationController
+  before_filter :user_access_denied
   # GET /items
   # GET /items.json
   def index
@@ -80,4 +81,11 @@ class ItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  
+   def user_access_denied
+     if user_signed_in? and current_user.user_approved?
+       redirect_to root_path
+     end
+   end
 end

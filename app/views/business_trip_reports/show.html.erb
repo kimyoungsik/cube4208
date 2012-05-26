@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Entry:</b>
+  <%= @business_trip_report.entry_id %>
+</p>
+
+<p>
+  <b>Participants:</b>
+  <%= @business_trip_report.participants %>
+</p>
+
+<p>
+  <b>Start:</b>
+  <%= @business_trip_report.start %>
+</p>
+
+<p>
+  <b>End:</b>
+  <%= @business_trip_report.end %>
+</p>
+
+<p>
+  <b>Perpose:</b>
+  <%= @business_trip_report.perpose %>
+</p>
+
+<p>
+  <b>Location:</b>
+  <%= @business_trip_report.location %>
+</p>
+
+<p>
+  <b>Interview:</b>
+  <%= @business_trip_report.interview %>
+</p>
+
+<p>
+  <b>Interviewee:</b>
+  <%= @business_trip_report.interviewee %>
+</p>
+
+<p>
+  <b>Content:</b>
+  <%= @business_trip_report.content %>
+</p>
+
+<p>
+  <b>Result:</b>
+  <%= @business_trip_report.result %>
+</p>
+
+
+<%= link_to 'Edit', edit_business_trip_report_path(@business_trip_report) %> |
+<%= link_to 'Back', business_trip_reports_path %>
